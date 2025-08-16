@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
+import 'package:water_delivery_app/screens/auth/login_screen.dart';
 import 'theme/app_theme.dart';
-import 'screens/login_screen.dart';
 
 void main() {
   runApp(
