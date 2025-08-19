@@ -1,399 +1,222 @@
 import 'package:flutter/material.dart';
-import 'package:water_delivery_app/theme/app_theme.dart';
-
+import 'package:water_delivery_app/screens/customer/customer_home_widget.dart';
 
 class CustomerDashboard extends StatelessWidget {
   const CustomerDashboard({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
-    
-  
-    final horizontalPadding = screenWidth * 0.05; 
-    final cardSpacing = screenWidth * 0.03; 
-    
-    return Container(
-      color: const Color(0xFFF8FAFC),
-      child: SafeArea(
+    return Scaffold(
+      backgroundColor: const Color(0xFFF8FAFC),
+      // AppBar added with CommonHeader
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        title: CommonHeader(
+          title: 'My Account',
+          fontSize: 20, // 👈 ab chhota kar diya
+        ),
+      ),
+      body: SafeArea(
         child: SingleChildScrollView(
-          padding: EdgeInsets.fromLTRB(
-            horizontalPadding,
-            screenHeight * 0.02,
-            horizontalPadding,
-            screenHeight * 0.12,
-          ),
+          padding: EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-            
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      'My Account',
-                      style: TextStyle(
-                        fontSize: screenWidth * 0.07, 
-                        fontWeight: FontWeight.w700,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
-                  _buildTopBarButton(Icons.notifications_none),
-                  SizedBox(width: cardSpacing),
-                  _buildTopBarButton(Icons.logout),
-                ],
-              ),
-              SizedBox(height: screenHeight * 0.03),
+              // Header removed from here - now in AppBar
+              // SizedBox(height: 24), // Reduced top spacing
 
-          
-              Container(
-                padding: EdgeInsets.all(screenWidth * 0.05),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(16),
-                  boxShadow: [
-                    BoxShadow(
-                      blurRadius: 10,
-                      offset: const Offset(0, 4),
-                      color: Colors.black.withOpacity(0.06),
-                    ),
-                  ],
-                ),
-                child: Row(
-                  children: [
-                    CircleAvatar(
-                      radius: screenWidth * 0.08, 
-                      backgroundColor: const Color(0xFFDDD6FE),
-                      child: Text(
-                        'D',
-                        style: TextStyle(
-                          fontSize: screenWidth * 0.06,
-                          fontWeight: FontWeight.w700,
-                          color: AppTheme.primaryColor,
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: screenWidth * 0.04),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Welcome, Danish!',
-                            style: TextStyle(
-                              fontSize: screenWidth * 0.045,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.black,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          SizedBox(height: screenHeight * 0.005),
-                          Text(
-                            'AquaFlow Solutions',
-                            style: TextStyle(
-                              fontSize: screenWidth * 0.035,
-                              color: AppTheme.primaryColor,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          SizedBox(height: screenHeight * 0.01),
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.location_on_outlined,
-                                size: screenWidth * 0.04,
-                                color: Colors.grey.shade600,
-                              ),
-                              SizedBox(width: screenWidth * 0.01),
-                              Expanded(
-                                child: Text(
-                                  'R-609, Sector 9, North Karachi',
-                                  style: TextStyle(
-                                    fontSize: screenWidth * 0.032,
-                                    color: Colors.grey.shade600,
-                                  ),
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+              // Welcome Card
+              WelcomeCard(
+                name: 'Emily Chen',
+                company: 'AquaFlow Solutions',
+                address: '123 Oak Street, Apartment 4B',
+                avatar: 'E',
               ),
-              SizedBox(height: screenHeight * 0.04),
+              SizedBox(height: 32),
 
+              // Account Summary Title
               Text(
                 'Account Summary',
                 style: TextStyle(
-                  fontSize: screenWidth * 0.055,
+                  fontSize: 22,
                   fontWeight: FontWeight.w700,
                   color: Colors.black,
                 ),
               ),
-              SizedBox(height: screenHeight * 0.02),
+              SizedBox(height: 16),
 
-              LayoutBuilder(
-                builder: (context, constraints) {
-    
-                  final cardWidth = (constraints.maxWidth - cardSpacing) / 2;
-                  final shouldUseGrid = cardWidth > 140; 
-                  
-                  if (shouldUseGrid) {
-                    return GridView.count(
-                      crossAxisCount: 2,
-                      shrinkWrap: true,
-                      crossAxisSpacing: cardSpacing,
-                      mainAxisSpacing: cardSpacing,
-                      childAspectRatio: _calculateAspectRatio(screenWidth),
-                      physics: const NeverScrollableScrollPhysics(),
-                      children: _buildStatCards(screenWidth),
-                    );
-                  } else {
-                  
-                    return Column(
-                      children: _buildStatCards(screenWidth)
-                          .map((card) => Padding(
-                                padding: EdgeInsets.only(bottom: cardSpacing),
-                                child: card,
-                              ))
-                          .toList(),
-                    );
-                  }
-                },
+              // Account Summary Stats Grid
+              GridView.count(
+                crossAxisCount: 2,
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                crossAxisSpacing: 12,
+                mainAxisSpacing: 12,
+                childAspectRatio: 1.4, // Updated aspect ratio for compact cards
+                children: [
+                  StatCard(
+                    icon: Icons.water_drop,
+                    iconColor: Color(0xFF3B82F6),
+                    iconBgColor: Color(0xFFE0E7FF),
+                    title: 'This Month',
+                    mainValue: '2 bottles',
+                    subValue: '\$50.00',
+                    mainColor: Color(0xFF3B82F6),
+                  ),
+                  StatCard(
+                    icon: Icons.local_shipping,
+                    iconColor: Color(0xFF10B981),
+                    iconBgColor: Color(0xFFD1FAE5),
+                    title: 'Total\nDelivered',
+                    mainValue: '45',
+                    subValue: 'All time',
+                    mainColor: Color(0xFF10B981),
+                  ),
+                  StatCard(
+                    icon: Icons.receipt_long,
+                    iconColor: const Color.fromARGB(255, 214, 164, 0), // amber text/icon
+                    iconBgColor: const Color.fromARGB(255, 255, 232, 158), // light amber bg
+                    title: 'Monthly Bill',
+                    mainValue: '\$1125.00',
+                    subValue: 'Current month',
+                    mainColor: const Color.fromARGB(255, 214, 164, 0),
+                  ),
+                  StatCard(
+                    icon: Icons.attach_money,
+                    iconColor: Color(0xFF3B82F6),
+                    iconBgColor: Color(0xFFE0E7FF),
+                    title: 'Rate per\nBottle',
+                    mainValue: '\$25.00',
+                    subValue: '1 pending',
+                    mainColor: Color(0xFF3B82F6),
+                  ),
+                ],
               ),
-              SizedBox(height: screenHeight * 0.04),
 
+              SizedBox(height: 32),
+
+              // Next Delivery Title
               Text(
                 'Next Delivery',
                 style: TextStyle(
-                  fontSize: screenWidth * 0.055,
+                  fontSize: 22,
                   fontWeight: FontWeight.w700,
                   color: Colors.black,
                 ),
               ),
-              SizedBox(height: screenHeight * 0.02),
+              SizedBox(height: 16),
 
-        
-              Container(
-                width: double.infinity,
-                padding: EdgeInsets.all(screenWidth * 0.05),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(16),
-                  boxShadow: [
-                    BoxShadow(
-                      blurRadius: 10,
-                      offset: const Offset(0, 4),
-                      color: Colors.black.withOpacity(0.06),
+              // No Upcoming Deliveries Card (This appears when scrolled)
+              NoUpcomingDeliveriesCard(
+                onScheduleTap: () {
+                  // Schedule delivery action
+                },
+              ),
+              SizedBox(height: 32),
+
+              // Recent Activity Section
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Recent Activity',
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.black,
                     ),
-                  ],
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      padding: EdgeInsets.all(screenWidth * 0.04),
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade100,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Icon(
-                        Icons.event_available_outlined,
-                        size: screenWidth * 0.08,
-                        color: Colors.grey.shade400,
-                      ),
-                    ),
-                    SizedBox(height: screenHeight * 0.015),
-                    Text(
-                      'No upcoming delivery added',
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      // View all action
+                    },
+                    child: Text(
+                      'View All',
                       style: TextStyle(
-                        fontSize: screenWidth * 0.04,
-                        color: Colors.grey.shade500,
-                        fontWeight: FontWeight.w500,
+                        color: Color(0xFF3B82F6),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
                       ),
-                      textAlign: TextAlign.center,
                     ),
-                  ],
+                  ),
+                ],
+              ),
+              SizedBox(height: 16),
+
+              // Recent Activity Item
+              RecentActivityItem(
+                title: '2 bottles delivered',
+                deliveredBy: 'by Alex Wilson',
+                date: 'Aug 18, 2025 • 08:31 AM',
+                amount: '\$50.00',
+                status: 'DELIVERED',
+              ),
+              SizedBox(height: 32),
+
+              // Quick Actions Title
+              Text(
+                'Quick Actions',
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black,
                 ),
               ),
+              SizedBox(height: 16),
+
+              // Quick Actions Grid
+              GridView.count(
+                crossAxisCount: 2,
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                crossAxisSpacing: 12,
+                mainAxisSpacing: 12,
+                childAspectRatio: 1.5,
+                children: [
+                  QuickActionCard(
+                    icon: Icons.history,
+                    iconColor: Color(0xFF3B82F6),
+                    iconBgColor: Color(0xFFE0E7FF),
+                    title: 'Delivery',
+                    onTap: () {
+                      // Delivery action
+                    },
+                  ),
+                  QuickActionCard(
+                    icon: Icons.receipt_long,
+                    iconColor: Color(0xFF10B981),
+                    iconBgColor: Color(0xFFD1FAE5),
+                    title: 'Pay Invoice',
+                    onTap: () {
+                      // Pay invoice action
+                    },
+                  ),
+                  QuickActionCard(
+                    icon: Icons.headset_mic,
+                    iconColor: Color(0xFF3B82F6),
+                    iconBgColor: Color(0xFFE0E7FF),
+                    title: 'Contact',
+                    onTap: () {
+                      // Contact action
+                    },
+                  ),
+                  QuickActionCard(
+                    icon: Icons.person,
+                    iconColor: Color(0xFFD97706),
+                    iconBgColor: Color(0xFFFED7AA),
+                    title: 'Update',
+                    onTap: () {
+                      // Update action
+                    },
+                  ),
+                ],
+              ),
+              SizedBox(height: 100), // Space for FAB
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildTopBarButton(IconData icon) {
-    return Builder(
-      builder: (context) {
-        final screenWidth = MediaQuery.of(context).size.width;
-        return Container(
-          padding: EdgeInsets.all(screenWidth * 0.02),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(12),
-            boxShadow: [
-              BoxShadow(
-                blurRadius: 8,
-                offset: const Offset(0, 2),
-                color: Colors.black.withOpacity(0.06),
-              ),
-            ],
-          ),
-          child: Icon(icon, size: screenWidth * 0.06),
-        );
-      },
-    );
-  }
-
-  double _calculateAspectRatio(double screenWidth) {
-    if (screenWidth < 350) return 0.75;
-    if (screenWidth < 400) return 0.8;
-    return 0.85;
-  }
-
-  List<Widget> _buildStatCards(double screenWidth) {
-    return [
-      _StatCard(
-        screenWidth: screenWidth,
-        icon: Icons.water_drop_outlined,
-        iconBg: const Color(0xFFDDD6FE),
-        iconColor: AppTheme.primaryColor,
-        title: 'This Month',
-        mainText: '2 bottles',
-        subText: '\$50.00',
-        mainColor: AppTheme.primaryColor,
-      ),
-      _StatCard(
-        screenWidth: screenWidth,
-        icon: Icons.local_shipping_outlined,
-        iconBg: const Color(0xFFD1FAE5),
-        iconColor: const Color(0xFF059669),
-        title: 'Total Delivered',
-        mainText: '45',
-        subText: 'All time',
-        mainColor: const Color(0xFF059669),
-      ),
-      _StatCard(
-        screenWidth: screenWidth,
-        icon: Icons.receipt_long_outlined,
-        iconBg: const Color(0xFFFED7AA),
-        iconColor: const Color(0xFFD97706),
-        title: 'Monthly Bill',
-        mainText: '\$1125.00',
-        subText: 'Current month',
-        mainColor: const Color(0xFFD97706),
-      ),
-      _StatCard(
-        screenWidth: screenWidth,
-        icon: Icons.attach_money_outlined,
-        iconBg: const Color(0xFFDDD6FE),
-        iconColor: AppTheme.primaryColor,
-        title: 'Rate per Bottle',
-        mainText: '\$25.00',
-        subText: '1 pending',
-        mainColor: AppTheme.primaryColor,
-      ),
-    ];
-  }
-}
-
-class _StatCard extends StatelessWidget {
-  final double screenWidth;
-  final IconData icon;
-  final Color iconBg;
-  final Color iconColor;
-  final String title;
-  final String mainText;
-  final String subText;
-  final Color mainColor;
-
-  const _StatCard({
-    required this.screenWidth,
-    required this.icon,
-    required this.iconBg,
-    required this.iconColor,
-    required this.title,
-    required this.mainText,
-    required this.subText,
-    required this.mainColor,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(screenWidth * 0.04),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-            color: Colors.black.withOpacity(0.06),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            padding: EdgeInsets.all(screenWidth * 0.025),
-            decoration: BoxDecoration(
-              color: iconBg,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Icon(
-              icon,
-              size: screenWidth * 0.055,
-              color: iconColor,
-            ),
-          ),
-          SizedBox(height: screenWidth * 0.03),
-          Text(
-            title,
-            style: TextStyle(
-              fontSize: screenWidth * 0.032,
-              color: Colors.grey.shade600,
-              fontWeight: FontWeight.w500,
-            ),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-          ),
-          SizedBox(height: screenWidth * 0.015),
-          FittedBox(
-            fit: BoxFit.scaleDown,
-            child: Text(
-              mainText,
-              style: TextStyle(
-                fontSize: screenWidth * 0.055,
-                fontWeight: FontWeight.w700,
-                color: mainColor,
-              ),
-            ),
-          ),
-          SizedBox(height: screenWidth * 0.01),
-          Text(
-            subText,
-            style: TextStyle(
-              fontSize: screenWidth * 0.032,
-              color: Colors.grey.shade500,
-              fontWeight: FontWeight.w500,
-            ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ],
       ),
     );
   }

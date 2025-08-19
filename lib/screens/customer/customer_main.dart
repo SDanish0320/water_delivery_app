@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:water_delivery_app/screens/customer/customer_invoices.dart';
 import 'package:water_delivery_app/screens/customer/customer_profile.dart';
 import 'package:water_delivery_app/screens/customer/customer_records.dart';
-import 'package:water_delivery_app/theme/app_theme.dart';
-import 'customer_home.dart' hide AppTheme;
+
+import 'customer_home.dart';
 
 class CustomerMain extends StatefulWidget {
   const CustomerMain({super.key});
@@ -17,7 +17,7 @@ class _CustomerMainState extends State<CustomerMain> {
 
   final _pages = const [
     CustomerDashboard(),
-    CustomerRecords(),
+    DeliveryRecordsScreen(),
     CustomerInvoices(),
     CustomerProfile(),
   ];
@@ -26,27 +26,65 @@ class _CustomerMainState extends State<CustomerMain> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _pages[_index],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _index,
-        onTap: (i) => setState(() => _index = i),
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: AppTheme.primaryColor,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.history_toggle_off), label: 'Records'),
-          BottomNavigationBarItem(icon: Icon(Icons.receipt_long_outlined), label: 'Invoices'),
-          BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: 'Profile'),
-        ],
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 10,
+              offset: Offset(0, -2),
+            ),
+          ],
+        ),
+        child: BottomNavigationBar(
+          currentIndex: _index,
+          onTap: (i) => setState(() => _index = i),
+          type: BottomNavigationBarType.fixed,
+          backgroundColor: Colors.white,
+          selectedItemColor: Color(0xFF3B82F6), // Same primary color from screenshots
+          unselectedItemColor: Colors.grey,
+          selectedFontSize: 12,
+          unselectedFontSize: 12,
+          elevation: 0,
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home_outlined),
+              activeIcon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.history),
+              activeIcon: Icon(Icons.history),
+              label: 'Records',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.receipt_long_outlined),
+              activeIcon: Icon(Icons.receipt_long),
+              label: 'Invoices',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person_outline),
+              activeIcon: Icon(Icons.person),
+              label: 'Profile',
+            ),
+          ],
+        ),
       ),
-      floatingActionButton: (_index == 0 || _index == 1)
-          ? FloatingActionButton(
-              onPressed: () {
-                
-              },
-              backgroundColor: AppTheme.primaryColor,
-              child: const Icon(Icons.add, color: Colors.white),
-            )
-          : null,
+      floatingActionButton: _index == 0 
+        ? FloatingActionButton(
+            onPressed: () {
+              // Add delivery/schedule action
+            },
+            backgroundColor: Color(0xFF3B82F6), // Same primary color
+            elevation: 8,
+            child: const Icon(
+              Icons.add,
+              color: Colors.white,
+              size: 28,
+            ),
+          )
+        : null,
     );
   }
 }

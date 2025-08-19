@@ -1,365 +1,256 @@
 import 'package:flutter/material.dart';
-import '../../theme/app_theme.dart';
 
-class CustomerRecords extends StatelessWidget {
-  const CustomerRecords({super.key});
+class DeliveryRecordsScreen extends StatelessWidget {
+  const DeliveryRecordsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: const Color(0xFFF8FAFC),
-      child: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(20, 16, 20, 100),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  const Expanded(
-                    child: Text(
-                      'Delivery Records',
-                      style: TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          blurRadius: 8,
-                          offset: const Offset(0, 2),
-                          color: Colors.black.withOpacity(0.06),
-                        ),
-                      ],
-                    ),
-                    child: const Icon(
-                      Icons.tune,
-                      size: 24,
-                      color: AppTheme.primaryColor,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 24),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(16),
-                  boxShadow: [
-                    BoxShadow(
-                      blurRadius: 10,
-                      offset: const Offset(0, 4),
-                      color: Colors.black.withOpacity(0.06),
-                    ),
-                  ],
-                ),
-                child: TextField(
-                  decoration: InputDecoration(
-                    hintText: "Search deliveries...",
-                    hintStyle: TextStyle(
-                      color: Colors.grey.shade500,
-                      fontSize: 16,
-                    ),
-                    prefixIcon: Padding(
-                      padding: const EdgeInsets.all(12),
-                      child: Icon(
-                        Icons.search,
-                        color: Colors.grey.shade400,
-                        size: 24,
-                      ),
-                    ),
-                    border: InputBorder.none,
-                    contentPadding: const EdgeInsets.all(16),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 24),
-              Row(
-                children: [
-                  Expanded(
-                    child: _buildStatCard(
-                      Icons.local_shipping_outlined,
-                      "1",
-                      "Total Deliveries",
-                      const Color(0xFFDDD6FE),
-                      AppTheme.primaryColor,
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: _buildStatCard(
-                      Icons.water_drop_outlined,
-                      "2",
-                      "Total Bottles",
-                      const Color(0xFFDDD6FE),
-                      AppTheme.primaryColor,
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: _buildStatCard(
-                      Icons.attach_money_outlined,
-                      "\$50.00",
-                      "Total Amount",
-                      const Color(0xFFD1FAE5),
-                      const Color(0xFF059669),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 24),
-              Container(
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(16),
-                  boxShadow: [
-                    BoxShadow(
-                      blurRadius: 10,
-                      offset: const Offset(0, 4),
-                      color: Colors.black.withOpacity(0.06),
-                    ),
-                  ],
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFD1FAE5),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: const Icon(
-                            Icons.check,
-                            color: Color(0xFF059669),
-                            size: 16,
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text(
-                                "Saturday, August 16, 2025",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 18,
-                                  color: Colors.black,
-                                ),
-                              ),
-                              const SizedBox(height: 4),
-                              Text(
-                                "05:14 PM",
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.grey.shade600,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 6,
-                          ),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFD1FAE5),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: const Text(
-                            "DELIVERED",
-                            style: TextStyle(
-                              color: Color(0xFF059669),
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 24),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: const [
-                        _RecordInfo(
-                          icon: Icons.water_drop_outlined,
-                          iconColor: AppTheme.primaryColor,
-                          iconBg: Color(0xFFDDD6FE),
-                          value: "2",
-                          label: "Bottles Delivered",
-                        ),
-                        _RecordInfo(
-                          icon: Icons.recycling_outlined,
-                          iconColor: Color(0xFFD97706),
-                          iconBg: Color(0xFFFED7AA),
-                          value: "2",
-                          label: "Bottles Collected",
-                        ),
-                        _RecordInfo(
-                          icon: Icons.attach_money_outlined,
-                          iconColor: Color(0xFF059669),
-                          iconBg: Color(0xFFD1FAE5),
-                          value: "\$50.00",
-                          label: "Total Amount",
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.person_outline,
-                          size: 16,
-                          color: Colors.grey.shade600,
-                        ),
-                        const SizedBox(width: 6),
-                        Text(
-                          "Delivered by: ",
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey.shade600,
-                          ),
-                        ),
-                        const Text(
-                          "Ubaid",
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ],
+    return Scaffold(
+      backgroundColor: Colors.grey[100],
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        title: Align(
+          alignment: Alignment.centerLeft, 
+          child: const Text(
+            "Delivery Records",
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+            ),
           ),
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(
+              Icons.filter_list, 
+              color: Color.fromARGB(255, 0, 63, 158),
+            ),
+            onPressed: () {},
+          ),
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            // Search Bar
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(30),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.05),
+                    blurRadius: 8,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: const TextField(
+                decoration: InputDecoration(
+                  hintText: "Search deliveries..",
+                  hintStyle: TextStyle(fontSize: 14, color: Colors.grey),
+                  border: InputBorder.none,
+                  icon: Icon(Icons.search, color: Colors.grey, size: 20),
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+
+            // Stats Cards
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _buildStatCard(
+                  icon: Icons.local_shipping, 
+                  value: "1",
+                  label: "Total Deliveries",
+                  color: Colors.blue,
+                ),
+                _buildStatCard(
+                  icon: Icons.water_drop, 
+                  value: "2",
+                  label: "Total Bottles",
+                  color: Colors.blue,
+                ),
+                _buildStatCard(
+                  icon: Icons.attach_money, 
+                  value: "\$50.00",
+                  label: "Total Amount",
+                  color: Colors.green,
+                ),
+              ],
+            ),
+            const SizedBox(height: 25),
+
+            // Delivery Record Card
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.15),
+                    blurRadius: 12,
+                    offset: const Offset(0, 6),
+                  ),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Date + Status
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        "Saturday, August 16, 2025",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.green.shade100,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: const Text(
+                          "DELIVERED",
+                          style: TextStyle(
+                            color: Colors.green,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 11,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 5),
+                  const Text(
+                    "05:14 PM",
+                    style: TextStyle(color: Colors.grey, fontSize: 12),
+                  ),
+                  const SizedBox(height: 15),
+
+                  // Mini Stats Row
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      _buildMiniStat(
+                        icon: Icons.water_drop,
+                        value: "2",
+                        label: "Bottles Delivered",
+                        color: Colors.blue,
+                      ),
+                      _buildMiniStat(
+                        icon: Icons.recycling,
+                        value: "2",
+                        label: "Bottles Collected",
+                        color: Colors.amber,
+                      ),
+                      _buildMiniStat(
+                        icon: Icons.attach_money,
+                        value: "\$50.00",
+                        label: "Total Amount",
+                        color: Colors.green,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 15),
+
+                  // Delivered by
+                  const Row(
+                    children: [
+                      Icon(
+                        Icons.person,
+                        size: 16,
+                        color: Colors.grey,
+                      ), 
+                      SizedBox(width: 6),
+                      Text(
+                        "Delivered by: Ubaid",
+                        style: TextStyle(fontSize: 13, color: Colors.black87),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  Widget _buildStatCard(
-    IconData icon,
-    String value,
-    String label,
-    Color iconBg,
-    Color iconColor,
-  ) {
+  Widget _buildStatCard({
+    required IconData icon,
+    required String value,
+    required String label,
+    required Color color,
+  }) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      width: 100,
+      height: 100,
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-            color: Colors.black.withOpacity(0.06),
-          ),
-        ],
+        color: color.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(20),
       ),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: iconBg,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Icon(
-              icon,
-              color: iconColor,
-              size: 24,
-            ),
-          ),
-          const SizedBox(height: 12),
+          Icon(icon, size: 26, color: color),
+          const SizedBox(height: 6),
           Text(
             value,
             style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w700,
-              color: iconColor,
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+              color: color,
             ),
           ),
-          const SizedBox(height: 4),
           Text(
             label,
             textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 12,
-              color: Colors.grey.shade600,
-              fontWeight: FontWeight.w500,
-            ),
+            style: const TextStyle(fontSize: 11, color: Colors.black54),
           ),
         ],
       ),
     );
   }
-}
 
-class _RecordInfo extends StatelessWidget {
-  final IconData icon;
-  final Color iconColor;
-  final Color iconBg;
-  final String value;
-  final String label;
-
-  const _RecordInfo({
-    required this.icon,
-    required this.iconColor,
-    required this.iconBg,
-    required this.value,
-    required this.label,
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildMiniStat({
+    required IconData icon,
+    required String value,
+    required String label,
+    required Color color,
+  }) {
     return Column(
       children: [
-        Container(
-          padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            color: iconBg,
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Icon(
-            icon,
-            color: iconColor,
-            size: 20,
-          ),
-        ),
-        const SizedBox(height: 8),
+        Icon(icon, size: 20, color: color),
+        const SizedBox(height: 6),
         Text(
           value,
           style: TextStyle(
-            fontWeight: FontWeight.w700,
-            fontSize: 16,
-            color: iconColor,
+            fontWeight: FontWeight.bold,
+            fontSize: 14,
+            color: color,
           ),
         ),
-        const SizedBox(height: 4),
         Text(
           label,
           textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 11,
-            color: Colors.grey.shade600,
-          ),
+          style: const TextStyle(fontSize: 11, color: Colors.black54),
         ),
       ],
     );

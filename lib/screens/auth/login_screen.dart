@@ -16,6 +16,21 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   int selectedRole = 3; 
 
+  // Role names and descriptions
+  final List<String> roleNames = [
+    'Overall Admin',
+    'Company Admin', 
+    'Delivery Boy',
+    'Customer'
+  ];
+
+  final List<String> roleDescriptions = [
+    'Manage all companies, admins and system settings',
+    'Manage company operations, delivery boys and customers',
+    'Handle deliveries, update status and customer interactions',
+    'Track your water deliveries and manage your account'
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,16 +76,32 @@ class _LoginScreenState extends State<LoginScreen> {
                   border: Border.all(color: Colors.grey.shade300),
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: Row(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Icon(Icons.person, color: AppTheme.primaryColor),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Text(
-                        "Track your water deliveries and manage your account",
-                        style: const TextStyle(
-                            fontSize: 12, color: AppTheme.secondaryTextColor),
+                    // Dynamic Role Name
+                    Text(
+                      roleNames[selectedRole],
+                      style: const TextStyle(
+                        fontSize: 16, 
+                        fontWeight: FontWeight.w600,
+                        color: AppTheme.primaryColor
                       ),
+                    ),
+                    const SizedBox(height: 8),
+                    // Dynamic Role Description
+                    Row(
+                      children: [
+                        const Icon(Icons.person, color: AppTheme.primaryColor),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Text(
+                            roleDescriptions[selectedRole],
+                            style: const TextStyle(
+                                fontSize: 12, color: AppTheme.secondaryTextColor),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -114,7 +145,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     if (selectedRole == 0) {
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (_) => const OverallAdminMain()),
+                        MaterialPageRoute(builder: (_) => const OverallAdminDashboard()),
                       );
                     } else if (selectedRole == 1) {
                       Navigator.pushReplacement(
