@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:water_delivery_app/utils/logout_helper.dart';
 
-// Common Header Widget - Updated to match the design
 class CommonHeader extends StatelessWidget {
   final String title;
-  final double fontSize; // 👈 new property
+  final double fontSize; 
 
   const CommonHeader({
     super.key,
     required this.title,
-    this.fontSize = 28, // default 28
+    this.fontSize = 28, 
   });
 
   @override
@@ -20,7 +19,7 @@ class CommonHeader extends StatelessWidget {
           child: Text(
             title,
             style: TextStyle(
-              fontSize: fontSize, // 👈 ab ye dynamic hoga
+              fontSize: fontSize, 
               fontWeight: FontWeight.w700,
               color: Colors.black,
             ),
@@ -48,7 +47,6 @@ class CommonHeader extends StatelessWidget {
   }
 }
 
-// Welcome Card Widget
 class WelcomeCard extends StatelessWidget {
   final String name;
   final String company;
@@ -110,7 +108,7 @@ class WelcomeCard extends StatelessWidget {
                   company,
                   style: TextStyle(
                     fontSize: 16,
-                    color: Color(0xFF3B82F6),
+                    color: Color.fromARGB(255, 0, 89, 255),
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -166,47 +164,47 @@ class StatCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(12), // Reduced from 16 to 12
+      padding: EdgeInsets.all(12), 
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12), // Reduced from 16 to 12
+        borderRadius: BorderRadius.circular(12), 
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.06),
-            blurRadius: 8, // Reduced from 10 to 8
-            offset: Offset(0, 2), // Reduced from 4 to 2
+            blurRadius: 8, 
+            offset: Offset(0, 2),
           ),
         ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment:
-            MainAxisAlignment.spaceBetween, // Added for better spacing
+            MainAxisAlignment.spaceBetween, 
         children: [
-          // Icon aur Title ko same line mein
+          
           Row(
             children: [
               Container(
-                padding: EdgeInsets.all(6), // Reduced from 8 to 6
+                padding: EdgeInsets.all(6), 
                 decoration: BoxDecoration(
                   color: iconBgColor,
-                  borderRadius: BorderRadius.circular(6), // Reduced from 8 to 6
+                  borderRadius: BorderRadius.circular(6),
                 ),
                 child: Icon(
                   icon,
-                  size: 16, // Reduced from 20 to 16
+                  size: 16,
                   color: iconColor,
                 ),
               ),
-              SizedBox(width: 8), // Reduced from 12 to 8
+              SizedBox(width: 8), 
               Expanded(
                 child: Text(
                   title,
                   style: TextStyle(
-                    fontSize: 10, // Reduced from 12 to 10
+                    fontSize: 10, 
                     color: Colors.grey.shade600,
                     fontWeight: FontWeight.w500,
-                    height: 1.1, // Reduced line height
+                    height: 1.1, 
                   ),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
@@ -214,23 +212,23 @@ class StatCard extends StatelessWidget {
               ),
             ],
           ),
-          // Main Value aur Sub Value
+         
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 mainValue,
                 style: TextStyle(
-                  fontSize: 18, // Reduced from 20 to 18
+                  fontSize: 18, 
                   fontWeight: FontWeight.w700,
                   color: mainColor,
                 ),
               ),
-              SizedBox(height: 2), // Reduced from 4 to 2
+              SizedBox(height: 2), 
               Text(
                 subValue,
                 style: TextStyle(
-                  fontSize: 10, // Reduced from 12 to 10
+                  fontSize: 10, 
                   color: Colors.grey.shade500,
                   fontWeight: FontWeight.w500,
                 ),
@@ -243,7 +241,6 @@ class StatCard extends StatelessWidget {
   }
 }
 
-// No Upcoming Deliveries Card
 class NoUpcomingDeliveriesCard extends StatelessWidget {
   final VoidCallback onScheduleTap;
 
@@ -324,7 +321,7 @@ class NoUpcomingDeliveriesCard extends StatelessWidget {
   }
 }
 
-// Recent Activity Item
+
 class RecentActivityItem extends StatelessWidget {
   final String title;
   final String deliveredBy;
@@ -434,7 +431,7 @@ class RecentActivityItem extends StatelessWidget {
   }
 }
 
-// Quick Action Card
+
 class QuickActionCard extends StatelessWidget {
   final IconData icon;
   final Color iconColor;

@@ -36,7 +36,7 @@ class DeliveryRecordsScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            // Search Bar
+           
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12),
               decoration: BoxDecoration(
@@ -61,7 +61,7 @@ class DeliveryRecordsScreen extends StatelessWidget {
             ),
             const SizedBox(height: 20),
 
-            // Stats Cards
+          
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -69,25 +69,25 @@ class DeliveryRecordsScreen extends StatelessWidget {
                   icon: Icons.local_shipping, 
                   value: "1",
                   label: "Total Deliveries",
-                  color: Colors.blue,
+                  color: Color.fromARGB(255, 0, 89, 255),
                 ),
                 _buildStatCard(
                   icon: Icons.water_drop, 
                   value: "2",
                   label: "Total Bottles",
-                  color: Colors.blue,
+                  color: Color.fromARGB(255, 0, 89, 255),
                 ),
                 _buildStatCard(
                   icon: Icons.attach_money, 
                   value: "\$50.00",
                   label: "Total Amount",
-                  color: Colors.green,
+                  color: Color(0xFF10B981),
                 ),
               ],
             ),
             const SizedBox(height: 25),
 
-            // Delivery Record Card
+            
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(16),
@@ -105,7 +105,7 @@ class DeliveryRecordsScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Date + Status
+                 
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -128,7 +128,7 @@ class DeliveryRecordsScreen extends StatelessWidget {
                         child: const Text(
                           "DELIVERED",
                           style: TextStyle(
-                            color: Colors.green,
+                            color: Color(0xFF10B981),
                             fontWeight: FontWeight.bold,
                             fontSize: 11,
                           ),
@@ -143,7 +143,7 @@ class DeliveryRecordsScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 15),
 
-                  // Mini Stats Row
+                  
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -151,7 +151,7 @@ class DeliveryRecordsScreen extends StatelessWidget {
                         icon: Icons.water_drop,
                         value: "2",
                         label: "Bottles Delivered",
-                        color: Colors.blue,
+                        color: Color.fromARGB(255, 0, 89, 255),
                       ),
                       _buildMiniStat(
                         icon: Icons.recycling,
@@ -163,13 +163,13 @@ class DeliveryRecordsScreen extends StatelessWidget {
                         icon: Icons.attach_money,
                         value: "\$50.00",
                         label: "Total Amount",
-                        color: Colors.green,
+                        color: Color(0xFF10B981),
                       ),
                     ],
                   ),
                   const SizedBox(height: 15),
 
-                  // Delivered by
+                  
                   const Row(
                     children: [
                       Icon(

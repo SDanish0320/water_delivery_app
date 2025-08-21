@@ -42,7 +42,7 @@ class _CustomerMainState extends State<CustomerMain> {
           onTap: (i) => setState(() => _index = i),
           type: BottomNavigationBarType.fixed,
           backgroundColor: Colors.white,
-          selectedItemColor: Color(0xFF3B82F6), // Same primary color from screenshots
+          selectedItemColor: Color.fromARGB(255, 0, 89, 255), 
           unselectedItemColor: Colors.grey,
           selectedFontSize: 12,
           unselectedFontSize: 12,
@@ -74,9 +74,9 @@ class _CustomerMainState extends State<CustomerMain> {
       floatingActionButton: _index == 0 
         ? FloatingActionButton(
             onPressed: () {
-              // Add delivery/schedule action
+             
             },
-            backgroundColor: Color(0xFF3B82F6), // Same primary color
+            backgroundColor: Color.fromARGB(255, 0, 89, 255), 
             elevation: 8,
             child: const Icon(
               Icons.add,

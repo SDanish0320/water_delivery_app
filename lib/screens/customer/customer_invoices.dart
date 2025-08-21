@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:water_delivery_app/theme/app_theme.dart';
 
 class CustomerInvoices extends StatefulWidget {
   const CustomerInvoices({super.key});
@@ -19,7 +18,6 @@ class _CustomerInvoicesState extends State<CustomerInvoices> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Custom App Bar
             Container(
               color: Colors.white,
               padding: const EdgeInsets.all(16),
@@ -44,7 +42,7 @@ class _CustomerInvoicesState extends State<CustomerInvoices> {
                         ),
                         child: const Icon(
                           Icons.file_download_outlined,
-                          color: Color(0xFF2196F3),
+                          color: Color.fromARGB(255, 0, 89, 255),
                           size: 20,
                         ),
                       ),
@@ -57,7 +55,7 @@ class _CustomerInvoicesState extends State<CustomerInvoices> {
                         ),
                         child: const Icon(
                           Icons.filter_list,
-                          color: Color(0xFF2196F3),
+                          color: Color.fromARGB(255, 0, 89, 255),
                           size: 20,
                         ),
                       ),
@@ -66,8 +64,6 @@ class _CustomerInvoicesState extends State<CustomerInvoices> {
                 ],
               ),
             ),
-            
-            // Filter Tabs
             Container(
               padding: const EdgeInsets.all(16),
               color: Colors.white,
@@ -83,14 +79,12 @@ class _CustomerInvoicesState extends State<CustomerInvoices> {
                 ],
               ),
             ),
-            
             Expanded(
               child: SingleChildScrollView(
                 padding: const EdgeInsets.all(16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Revenue Overview Section
                     Container(
                       padding: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
@@ -109,7 +103,6 @@ class _CustomerInvoicesState extends State<CustomerInvoices> {
                             ),
                           ),
                           const SizedBox(height: 24),
-                          
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -125,21 +118,17 @@ class _CustomerInvoicesState extends State<CustomerInvoices> {
                                 style: TextStyle(
                                   fontSize: 28,
                                   fontWeight: FontWeight.w700,
-                                  color: Color(0xFF2196F3),
+                                  color: Color.fromARGB(255, 0, 89, 255),
                                 ),
                               ),
                             ],
                           ),
-                          
                           const SizedBox(height: 32),
-                          
-                          // Chart
                           SizedBox(
                             height: 220,
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
-                                // Y-axis labels
                                 Column(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -153,21 +142,18 @@ class _CustomerInvoicesState extends State<CustomerInvoices> {
                                     Text('\$0', style: TextStyle(fontSize: 11, color: Colors.grey[500])),
                                   ],
                                 ),
-                                
                                 const SizedBox(width: 12),
-                                
-                                // Chart bars
                                 Expanded(
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
-                                      _buildChartBar('Jan', 120, const Color(0xFF2196F3)),
+                                      _buildChartBar('Jan', 120, const Color.fromARGB(255, 0, 89, 255)),
                                       _buildChartBar('Feb', 180, const Color(0xFF4CAF50)),
                                       _buildChartBar('Mar', 90, const Color(0xFFFF9800)),
                                       _buildChartBar('Apr', 150, const Color(0xFFF44336)),
                                       _buildChartBar('May', 200, const Color(0xFF9C27B0)),
-                                      _buildChartBar('Jun', 250, const Color(0xFF2196F3)),
+                                      _buildChartBar('Jun', 250, const Color.fromARGB(255, 0, 89, 255)),
                                     ],
                                   ),
                                 ),
@@ -177,10 +163,7 @@ class _CustomerInvoicesState extends State<CustomerInvoices> {
                         ],
                       ),
                     ),
-                    
                     const SizedBox(height: 24),
-                    
-                    // Recent Invoices Section
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -201,10 +184,7 @@ class _CustomerInvoicesState extends State<CustomerInvoices> {
                         ),
                       ],
                     ),
-                    
                     const SizedBox(height: 16),
-                    
-                    // Invoice Item
                     Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
@@ -226,9 +206,7 @@ class _CustomerInvoicesState extends State<CustomerInvoices> {
                               size: 28,
                             ),
                           ),
-                          
                           const SizedBox(width: 16),
-                          
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -252,7 +230,6 @@ class _CustomerInvoicesState extends State<CustomerInvoices> {
                               ],
                             ),
                           ),
-                          
                           const Text(
                             '\$120.00',
                             style: TextStyle(
@@ -264,8 +241,7 @@ class _CustomerInvoicesState extends State<CustomerInvoices> {
                         ],
                       ),
                     ),
-                    
-                    const SizedBox(height: 100), // Space for bottom navigation
+                    const SizedBox(height: 100),
                   ],
                 ),
               ),
@@ -273,13 +249,11 @@ class _CustomerInvoicesState extends State<CustomerInvoices> {
           ],
         ),
       ),
-      
-      // Floating Action Button
       floatingActionButton: Container(
         width: 56,
         height: 56,
         decoration: BoxDecoration(
-          color: const Color(0xFF2196F3),
+          color: const Color.fromARGB(255, 0, 89, 255),
           borderRadius: BorderRadius.circular(16),
         ),
         child: FloatingActionButton(
@@ -300,7 +274,7 @@ class _CustomerInvoicesState extends State<CustomerInvoices> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       decoration: BoxDecoration(
-        color: isSelected ? const Color(0xFF2196F3) : Colors.transparent,
+        color: isSelected ? const Color.fromARGB(255, 0, 89, 255) : Colors.transparent,
         borderRadius: BorderRadius.circular(25),
         border: isSelected ? null : Border.all(color: Colors.grey[300]!),
       ),

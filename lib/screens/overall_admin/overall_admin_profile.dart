@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../theme/app_theme.dart';
-import '../../utils/logout_helper.dart';
+import 'package:water_delivery_app/utils/logout_helper.dart';
 
-class CustomerProfile extends StatelessWidget {
-  const CustomerProfile({super.key});
+class OverallAdminProfile extends StatelessWidget {
+  const OverallAdminProfile({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,14 +18,18 @@ class CustomerProfile extends StatelessWidget {
             const Text(
               'Profile',
               style: TextStyle(
-                fontSize: 28,
+                fontSize: 24,
                 fontWeight: FontWeight.w700,
                 color: Colors.black,
               ),
             ),
             GestureDetector(
               onTap: () => LogoutHelper.logout(context),
-              child: const Icon(Icons.logout, size: 24, color: Colors.black87),
+              child: const Icon(
+                Icons.logout,
+                size: 24,
+                color: Colors.black87,
+              ),
             ),
           ],
         ),
@@ -37,7 +40,6 @@ class CustomerProfile extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-             
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(24),
@@ -61,11 +63,11 @@ class CustomerProfile extends StatelessWidget {
                           radius: 60,
                           backgroundColor: const Color(0xFFE0E7FF),
                           child: const Text(
-                            'E',
+                            'S',
                             style: TextStyle(
                               fontSize: 40,
                               fontWeight: FontWeight.w700,
-                              color: AppTheme.primaryColor,
+                              color: Color.fromARGB(255, 0, 89, 255),
                             ),
                           ),
                         ),
@@ -75,7 +77,7 @@ class CustomerProfile extends StatelessWidget {
                           child: Container(
                             padding: const EdgeInsets.all(8),
                             decoration: const BoxDecoration(
-                              color: AppTheme.primaryColor,
+                              color: Color.fromARGB(255, 0, 89, 255),
                               shape: BoxShape.circle,
                             ),
                             child: const Icon(
@@ -89,7 +91,7 @@ class CustomerProfile extends StatelessWidget {
                     ),
                     const SizedBox(height: 24),
                     const Text(
-                      'Emily Chen',
+                      'Super Admin',
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.w700,
@@ -107,33 +109,13 @@ class CustomerProfile extends StatelessWidget {
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: const Text(
-                        'Customer',
+                        'Overall Admin',
                         style: TextStyle(
-                          color: AppTheme.primaryColor,
+                          color: Color.fromARGB(255, 0, 89, 255),
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.business_outlined,
-                          size: 16,
-                          color: Colors.grey.shade600,
-                        ),
-                        const SizedBox(width: 6),
-                        Text(
-                          'AquaFlow Solutions',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.grey.shade600,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ],
                     ),
                     const SizedBox(height: 20),
                     Container(
@@ -148,12 +130,12 @@ class CustomerProfile extends StatelessWidget {
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: const [
-                          Icon(Icons.circle, size: 8, color: Color(0xFF059669)),
+                          Icon(Icons.circle, size: 8, color: Color(0xFF10B981)),
                           SizedBox(width: 8),
                           Text(
                             'Active',
                             style: TextStyle(
-                              color: Color(0xFF059669),
+                              color: Color(0xFF10B981),
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
                             ),
@@ -164,10 +146,7 @@ class CustomerProfile extends StatelessWidget {
                   ],
                 ),
               ),
-
               const SizedBox(height: 24),
-
-              
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(24),
@@ -194,37 +173,25 @@ class CustomerProfile extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 24),
-
                     _buildContactInfoRow(
                       icon: Icons.email_outlined,
-                      iconColor: AppTheme.primaryColor,
+                      iconColor: const Color.fromARGB(255, 0, 89, 255),
                       iconBgColor: const Color(0xFFE0E7FF),
                       label: 'Email',
-                      value: 'emily@email.com',
+                      value: 'admin@system.com',
                     ),
                     const SizedBox(height: 20),
-
                     _buildContactInfoRow(
                       icon: Icons.phone_outlined,
-                      iconColor: AppTheme.primaryColor,
+                      iconColor: const Color.fromARGB(255, 0, 89, 255),
                       iconBgColor: const Color(0xFFE0E7FF),
                       label: 'Phone',
-                      value: '+1234567897',
-                    ),
-                    const SizedBox(height: 20),
-
-                    _buildContactInfoRow(
-                      icon: Icons.location_on_outlined,
-                      iconColor: AppTheme.primaryColor,
-                      iconBgColor: const Color(0xFFE0E7FF),
-                      label: 'Address',
-                      value: '123 Oak Street, Apartment 4B',
+                      value: '+11111111111',
                     ),
                   ],
                 ),
               ),
               const SizedBox(height: 24),
-              
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(24),
@@ -243,7 +210,7 @@ class CustomerProfile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text(
-                      'Order Summary',
+                      'System Overview',
                       style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.w700,
@@ -254,94 +221,50 @@ class CustomerProfile extends StatelessWidget {
                     Row(
                       children: [
                         Expanded(
-                          child: Column(
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.all(16),
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFFE0E7FF),
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: const Icon(
-                                  Icons.shopping_bag,
-                                  color: AppTheme.primaryColor,
-                                  size: 24,
-                                ),
-                              ),
-                              const SizedBox(height: 12),
-                              const Text(
-                                '28',
-                                style: TextStyle(
-                                  fontSize: 28,
-                                  fontWeight: FontWeight.w700,
-                                  color: AppTheme.primaryColor,
-                                ),
-                              ),
-                              const SizedBox(height: 4),
-                              const Text(
-                                'Orders',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.black,
-                                ),
-                              ),
-                              const SizedBox(height: 4),
-                              Text(
-                                'This month',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.grey.shade600,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ],
+                          child: _buildSystemStatCard(
+                            icon: Icons.business,
+                            iconColor: const Color.fromARGB(255, 0, 89, 255),
+                            iconBgColor: const Color(0xFFE0E7FF),
+                            value: '3',
+                            title: 'Total Companies',
+                            subtitle: 'Registered',
                           ),
                         ),
-                        const SizedBox(width: 20),
+                        const SizedBox(width: 16),
                         Expanded(
-                          child: Column(
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.all(16),
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFFE0E7FF),
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: const Icon(
-                                  Icons.water_drop,
-                                  color: AppTheme.primaryColor,
-                                  size: 24,
-                                ),
-                              ),
-                              const SizedBox(height: 12),
-                              const Text(
-                                '84',
-                                style: TextStyle(
-                                  fontSize: 28,
-                                  fontWeight: FontWeight.w700,
-                                  color: AppTheme.primaryColor,
-                                ),
-                              ),
-                              const SizedBox(height: 4),
-                              const Text(
-                                'Bottles',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.black,
-                                ),
-                              ),
-                              const SizedBox(height: 4),
-                              Text(
-                                'Total delivered',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.grey.shade600,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ],
+                          child: _buildSystemStatCard(
+                            icon: Icons.group,
+                            iconColor: const Color(0xFF10B981),
+                            iconBgColor: const Color(0xFFD1FAE5),
+                            value: '10',
+                            title: 'System Users',
+                            subtitle: 'All roles',
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: _buildSystemStatCard(
+                            icon: Icons.pending_actions,
+                            iconColor: const Color(0xFFFF9800),
+                            iconBgColor: const Color(0xFFFFF3E0),
+                            value: '1',
+                            title: 'Pending Approvals',
+                            subtitle: 'Need review',
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: _buildSystemStatCard(
+                            icon: Icons.attach_money,
+                            iconColor: const Color.fromARGB(255, 0, 89, 255),
+                            iconBgColor: const Color(0xFFE0E7FF),
+                            value: '\$105K',
+                            title: 'Total Revenue',
+                            subtitle: 'Monthly',
                           ),
                         ),
                       ],
@@ -350,7 +273,6 @@ class CustomerProfile extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 24),
-              
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(24),
@@ -377,44 +299,54 @@ class CustomerProfile extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 24),
-                    
-                    
                     _buildSettingsRow(
                       icon: Icons.person,
-                      iconColor: AppTheme.primaryColor,
+                      iconColor: const Color.fromARGB(255, 0, 89, 255),
                       iconBgColor: const Color(0xFFE0E7FF),
                       title: 'Edit Profile',
                       subtitle: 'Update your profile details',
                       onTap: () {},
                     ),
                     const SizedBox(height: 20),
-                    
-                    
                     _buildSettingsRow(
-                      icon: Icons.history,
-                      iconColor: AppTheme.primaryColor,
+                      icon: Icons.business,
+                      iconColor: const Color.fromARGB(255, 0, 89, 255),
                       iconBgColor: const Color(0xFFE0E7FF),
-                      title: 'Order History',
-                      subtitle: 'View your past orders',
+                      title: 'Manage Companies',
+                      subtitle: 'View and manage all companies',
                       onTap: () {},
                     ),
                     const SizedBox(height: 20),
-                    
-                    
+                    _buildSettingsRow(
+                      icon: Icons.group,
+                      iconColor: const Color.fromARGB(255, 0, 89, 255),
+                      iconBgColor: const Color(0xFFE0E7FF),
+                      title: 'User Management',
+                      subtitle: 'Manage system users',
+                      onTap: () {},
+                    ),
+                    const SizedBox(height: 20),
+                    _buildSettingsRow(
+                      icon: Icons.bar_chart,
+                      iconColor: const Color.fromARGB(255, 0, 89, 255),
+                      iconBgColor: const Color(0xFFE0E7FF),
+                      title: 'System Reports',
+                      subtitle: 'View system analytics',
+                      onTap: () {},
+                    ),
+                    const SizedBox(height: 20),
                     _buildSettingsRow(
                       icon: Icons.notifications,
-                      iconColor: AppTheme.primaryColor,
+                      iconColor: const Color.fromARGB(255, 0, 89, 255),
                       iconBgColor: const Color(0xFFE0E7FF),
                       title: 'Notifications',
                       subtitle: 'Manage notification preferences',
                       onTap: () {},
                     ),
                     const SizedBox(height: 20),
-                    
-                   
                     _buildSettingsRow(
                       icon: Icons.help,
-                      iconColor: AppTheme.primaryColor,
+                      iconColor: const Color.fromARGB(255, 0, 89, 255),
                       iconBgColor: const Color(0xFFE0E7FF),
                       title: 'Help & Support',
                       subtitle: 'Get help and contact support',
@@ -424,7 +356,6 @@ class CustomerProfile extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 24),
-              
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(24),
@@ -449,7 +380,7 @@ class CustomerProfile extends StatelessWidget {
                       ),
                       child: const Icon(
                         Icons.water_drop,
-                        color: AppTheme.primaryColor,
+                        color: Color.fromARGB(255, 0, 89, 255),
                         size: 32,
                       ),
                     ),
@@ -459,7 +390,7 @@ class CustomerProfile extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.w700,
-                        color: AppTheme.primaryColor,
+                        color: Color.fromARGB(255, 0, 89, 255),
                       ),
                     ),
                     const SizedBox(height: 8),
@@ -488,6 +419,61 @@ class CustomerProfile extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildSystemStatCard({
+    required IconData icon,
+    required Color iconColor,
+    required Color iconBgColor,
+    required String value,
+    required String title,
+    required String subtitle,
+  }) {
+    return Column(
+      children: [
+        Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: iconBgColor,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Icon(
+            icon,
+            color: iconColor,
+            size: 24,
+          ),
+        ),
+        const SizedBox(height: 12),
+        Text(
+          value,
+          style: TextStyle(
+            fontSize: 28,
+            fontWeight: FontWeight.w700,
+            color: iconColor,
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          title,
+          style: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+            color: Colors.black,
+          ),
+          textAlign: TextAlign.center,
+        ),
+        const SizedBox(height: 2),
+        Text(
+          subtitle,
+          style: TextStyle(
+            fontSize: 12,
+            color: Colors.grey.shade600,
+            fontWeight: FontWeight.w500,
+          ),
+          textAlign: TextAlign.center,
+        ),
+      ],
     );
   }
 

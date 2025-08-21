@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:water_delivery_app/screens/auth/forgot_password_screen.dart';
+import 'package:water_delivery_app/screens/auth/signup_screen.dart';
 import 'package:water_delivery_app/screens/company_admin/company_admin_main.dart';
 import 'package:water_delivery_app/screens/customer/customer_main.dart';
 import 'package:water_delivery_app/screens/delivery_boy/delivery_boy_main.dart';
@@ -14,12 +16,11 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  int selectedRole = 3; 
+  int selectedRole = 0;
 
-  // Role names and descriptions
   final List<String> roleNames = [
     'Overall Admin',
-    'Company Admin', 
+    'Company Admin',
     'Delivery Boy',
     'Customer'
   ];
@@ -44,7 +45,8 @@ class _LoginScreenState extends State<LoginScreen> {
               CircleAvatar(
                 radius: 40,
                 backgroundColor: AppTheme.primaryColor,
-                child: const Icon(Icons.water_drop, color: Colors.white, size: 40),
+                child:
+                    const Icon(Icons.water_drop, color: Colors.white, size: 40),
               ),
               const SizedBox(height: 10),
               const Text(
@@ -53,11 +55,10 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const Text(
                 "Water Delivery Management System",
-                style: TextStyle(fontSize: 14, color: AppTheme.secondaryTextColor),
+                style: TextStyle(
+                    fontSize: 14, color: AppTheme.secondaryTextColor),
               ),
               const SizedBox(height: 30),
-
-              
               RoleSelector(
                 selectedIndex: selectedRole,
                 onRoleSelected: (index) {
@@ -66,10 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   });
                 },
               ),
-
               const SizedBox(height: 20),
-
-              
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
@@ -79,17 +77,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Dynamic Role Name
                     Text(
                       roleNames[selectedRole],
                       style: const TextStyle(
-                        fontSize: 16, 
-                        fontWeight: FontWeight.w600,
-                        color: AppTheme.primaryColor
-                      ),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: AppTheme.primaryColor),
                     ),
                     const SizedBox(height: 8),
-                    // Dynamic Role Description
                     Row(
                       children: [
                         const Icon(Icons.person, color: AppTheme.primaryColor),
@@ -98,7 +93,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: Text(
                             roleDescriptions[selectedRole],
                             style: const TextStyle(
-                                fontSize: 12, color: AppTheme.secondaryTextColor),
+                                fontSize: 12,
+                                color: AppTheme.secondaryTextColor),
                           ),
                         ),
                       ],
@@ -106,10 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ],
                 ),
               ),
-
               const SizedBox(height: 20),
-
-           
               TextField(
                 decoration: InputDecoration(
                   labelText: "Email Address",
@@ -117,7 +110,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               const SizedBox(height: 15),
-
               TextField(
                 obscureText: true,
                 decoration: InputDecoration(
@@ -127,17 +119,23 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               const SizedBox(height: 10),
-
               Align(
                 alignment: Alignment.centerRight,
                 child: TextButton(
-                  onPressed: () {},
-                  child: const Text("Forgot Password?"),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => const ForgotPasswordScreen()),
+                    );
+                  },
+                  child: const Text(
+                    "Forgot Password?",
+                    style: TextStyle(color: Color.fromARGB(255, 0, 89, 255)),
+                  ),
                 ),
               ),
               const SizedBox(height: 10),
-
-           
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
@@ -145,27 +143,55 @@ class _LoginScreenState extends State<LoginScreen> {
                     if (selectedRole == 0) {
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (_) => const OverallAdminDashboard()),
+                        MaterialPageRoute(
+                            builder: (_) => const OverallAdminMain()),
                       );
                     } else if (selectedRole == 1) {
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (_) => const CompanyAdminMain()),
+                        MaterialPageRoute(
+                            builder: (_) => const CompanyAdminMain()),
                       );
                     } else if (selectedRole == 2) {
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (_) => const DeliveryBoyMain()),
+                        MaterialPageRoute(
+                            builder: (_) => const DeliveryBoyMain()),
                       );
                     } else if (selectedRole == 3) {
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (_) => const CustomerMain()),
+                        MaterialPageRoute(
+                            builder: (_) => const CustomerMain()),
                       );
                     }
                   },
                   child: const Text("Sign In"),
                 ),
+              ),
+              const SizedBox(height: 15),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "Don't have an account? ",
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => const SignUpScreen()),
+                      );
+                    },
+                    child: const Text(
+                      "Sign Up",
+                      style:
+                          TextStyle(color: Color.fromARGB(255, 0, 89, 255)),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
