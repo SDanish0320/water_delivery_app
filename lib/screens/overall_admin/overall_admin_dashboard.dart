@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:water_delivery_app/screens/overall_admin/dashboard_reports_analytics.dart';
 import 'package:water_delivery_app/utils/logout_helper.dart';
+import 'package:water_delivery_app/utils/notification_screen.dart';
 
 class OverallAdminDashboard extends StatefulWidget {
   const OverallAdminDashboard({super.key});
@@ -33,7 +35,14 @@ class _OverallAdminDashboardState extends State<OverallAdminDashboard> {
             Row(
               children: [
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => NotificationsScreen(),
+                      ),
+                    );
+                  },
                   child: const Icon(
                     Icons.notifications_outlined,
                     color: Colors.black87,
@@ -317,9 +326,16 @@ class _OverallAdminDashboardState extends State<OverallAdminDashboard> {
                             child: ElevatedButton(
                               onPressed: () {},
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color.fromARGB(255, 0, 89, 255),
+                                backgroundColor: const Color.fromARGB(
+                                  255,
+                                  0,
+                                  89,
+                                  255,
+                                ),
                                 foregroundColor: Colors.white,
-                                padding: const EdgeInsets.symmetric(vertical: 12),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 12,
+                                ),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8),
                                 ),
@@ -337,7 +353,9 @@ class _OverallAdminDashboardState extends State<OverallAdminDashboard> {
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color(0xFFF44336),
                                 foregroundColor: Colors.white,
-                                padding: const EdgeInsets.symmetric(vertical: 12),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 12,
+                                ),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8),
                                 ),
@@ -685,7 +703,372 @@ class _OverallAdminDashboardState extends State<OverallAdminDashboard> {
     Color iconColor,
     Color bgColor,
   ) {
+    return GestureDetector(
+      onTap: () {
+        if (title == 'System Reports') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const ReportsAnalyticsPage(),
+            ),
+          );
+        } else if (title == 'Manage Companies') {
+          _showCompanyManagementBottomSheet();
+        } else if (title == 'User Management') {
+          _showUserManagementBottomSheet();
+        } else if (title == 'System Settings') {
+          _showSystemSettingsBottomSheet();
+        }
+      },
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: bgColor,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Icon(icon, color: iconColor, size: 20),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                title,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.grey[800],
+                ),
+              ),
+            ),
+            const Icon(Icons.arrow_forward_ios, color: Colors.grey, size: 14),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _showCompanyManagementBottomSheet() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return DraggableScrollableSheet(
+          initialChildSize: 0.9,
+          minChildSize: 0.5,
+          maxChildSize: 0.95,
+          builder: (context, scrollController) {
+            return Container(
+              decoration: const BoxDecoration(
+                color: Color.fromARGB(255, 255, 255, 255),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20),
+                ),
+              ),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: SingleChildScrollView(
+                      controller: scrollController,
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 14),
+                          const Text(
+                            'Company Management',
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w800,
+                              color: Colors.black,
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          _buildCompanyCard(
+                            'AquaFlow Solutions',
+                            '150 customers • 8 delivery boys',
+                            '\$45,000/month',
+                            true,
+                          ),
+                          const SizedBox(width: 12),
+                          _buildCompanyCard(
+                            'Pure Water Co.',
+                            '200 customers • 12 delivery boys',
+                            '\$60,000/month',
+                            true,
+                          ),
+                          const SizedBox(width: 12),
+                          _buildCompanyCard(
+                            'Crystal Clear Waters',
+                            '0 customers • 0 delivery boys',
+                            '\$0/month',
+                            false,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Widget _buildCompanyCard(
+    String companyName,
+    String details,
+    String revenue,
+    bool isActive,
+  ) {
     return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 50,
+            height: 50,
+            decoration: BoxDecoration(
+              color: const Color(0xFFE0F2F1),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Icon(
+              Icons.business,
+              color: const Color(0xFF10B981),
+              size: 28,
+            ),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  companyName,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.black,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  details,
+                  style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  'Revenue: $revenue',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: const Color(0xFF10B981),
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const Icon(Icons.arrow_forward_ios, color: Colors.grey, size: 16),
+        ],
+      ),
+    );
+  }
+
+  void _showUserManagementBottomSheet() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return DraggableScrollableSheet(
+          initialChildSize: 0.9,
+          minChildSize: 0.5,
+          maxChildSize: 0.95,
+          builder: (context, scrollController) {
+            return Container(
+              decoration: const BoxDecoration(
+                color: Color.fromARGB(255, 255, 255, 255),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20),
+                ),
+              ),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: SingleChildScrollView(
+                      controller: scrollController,
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 14),
+                          const Text(
+                            'User Management',
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w800,
+                              color: Colors.black,
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          _buildUserCard(
+                            'S',
+                            'Super Admin',
+                            'Overall Admin',
+                            null,
+                            const Color.fromARGB(255, 0, 89, 255),
+                          ),
+                          _buildUserCard(
+                            'J',
+                            'John Smith',
+                            'Company Admin',
+                            'AquaFlow Solutions',
+                            const Color.fromARGB(255, 0, 89, 255),
+                          ),
+                          _buildUserCard(
+                            'S',
+                            'Sarah Johnson',
+                            'Company Admin',
+                            'Pure Water Co.',
+                            const Color.fromARGB(255, 0, 89, 255),
+                          ),
+                          _buildUserCard(
+                            'M',
+                            'Mike Davis',
+                            'Company Admin',
+                            'Crystal Clear Waters',
+                            const Color.fromARGB(255, 0, 89, 255),
+                          ),
+                          _buildUserCard(
+                            'A',
+                            'Alex Wilson',
+                            'Delivery Boy',
+                            'AquaFlow Solutions',
+                            const Color.fromARGB(255, 0, 89, 255),
+                          ),
+                          _buildUserCard(
+                            'T',
+                            'Tom Brown',
+                            'Delivery Boy',
+                            'AquaFlow Solutions',
+                            const Color.fromARGB(255, 0, 89, 255),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  void _showSystemSettingsBottomSheet() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return DraggableScrollableSheet(
+          initialChildSize: 0.7,
+          minChildSize: 0.5,
+          maxChildSize: 0.9,
+          builder: (context, scrollController) {
+            return Container(
+              decoration: const BoxDecoration(
+                color: Color.fromARGB(255, 255, 255, 255),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20),
+                ),
+              ),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: SingleChildScrollView(
+                      controller: scrollController,
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 14),
+                          Text(
+                            'System Settings',
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w800,
+                              color: Colors.black,
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          _buildSettingOption(
+                            Icons.settings,
+                            'App Configuration',
+                            const Color.fromARGB(255, 0, 89, 255),
+                            const Color(0xFFE3F2FD),
+                          ),
+                          _buildSettingOption(
+                            Icons.security,
+                            'Security Settings',
+                            const Color.fromARGB(255, 0, 89, 255),
+                            const Color(0xFFE3F2FD),
+                          ),
+                          _buildSettingOption(
+                            Icons.backup,
+                            'Backup Settings',
+                            const Color.fromARGB(255, 0, 89, 255),
+                            const Color(0xFFE3F2FD),
+                          ),
+                          _buildSettingOption(
+                            Icons.email,
+                            'Email Configuration',
+                            const Color.fromARGB(255, 0, 89, 255),
+                            const Color(0xFFE3F2FD),
+                          ),
+                          const SizedBox(height: 100),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Widget _buildUserCard(
+    String initial,
+    String name,
+    String role,
+    String? company,
+    Color avatarColor,
+  ) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -694,26 +1077,111 @@ class _OverallAdminDashboardState extends State<OverallAdminDashboard> {
       child: Row(
         children: [
           Container(
-            width: 40,
-            height: 40,
+            width: 50,
+            height: 50,
             decoration: BoxDecoration(
-              color: bgColor,
-              borderRadius: BorderRadius.circular(8),
+              color: avatarColor.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(25),
             ),
-            child: Icon(icon, color: iconColor, size: 20),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Text(
-              title,
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                color: Colors.grey[800],
+            child: Center(
+              child: Text(
+                initial,
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,
+                  color: avatarColor,
+                ),
               ),
             ),
           ),
-          const Icon(Icons.arrow_forward_ios, color: Colors.grey, size: 14),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  name,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.black,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  role,
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.grey[600],
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                if (company != null) ...[
+                  const SizedBox(height: 2),
+                  Text(
+                    company,
+                    style: TextStyle(fontSize: 12, color: Colors.grey[500]),
+                  ),
+                ],
+              ],
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            decoration: BoxDecoration(
+              color: const Color(0xFFE8F5E8),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: const Text(
+              'Active',
+              style: TextStyle(
+                color: Color(0xFF10B981),
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSettingOption(
+    IconData icon,
+    String title,
+    Color iconColor,
+    Color bgColor,
+  ) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 50,
+            height: 50,
+            decoration: BoxDecoration(
+              color: bgColor,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Icon(icon, color: iconColor, size: 24),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Text(
+              title,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: Colors.black,
+              ),
+            ),
+          ),
+          const Icon(Icons.arrow_forward_ios, color: Colors.grey, size: 16),
         ],
       ),
     );

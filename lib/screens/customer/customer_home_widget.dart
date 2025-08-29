@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:water_delivery_app/utils/notification_screen.dart';
 import 'package:water_delivery_app/utils/logout_helper.dart';
 
 class CommonHeader extends StatelessWidget {
   final String title;
-  final double fontSize; 
+  final double fontSize;
 
-  const CommonHeader({
-    super.key,
-    required this.title,
-    this.fontSize = 28, 
-  });
+  const CommonHeader({super.key, required this.title, this.fontSize = 28});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +16,7 @@ class CommonHeader extends StatelessWidget {
           child: Text(
             title,
             style: TextStyle(
-              fontSize: fontSize, 
+              fontSize: fontSize,
               fontWeight: FontWeight.w700,
               color: Colors.black,
             ),
@@ -27,7 +24,10 @@ class CommonHeader extends StatelessWidget {
         ),
         GestureDetector(
           onTap: () {
-            print('Notification tapped');
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => NotificationsScreen()),
+            );
           },
           child: Icon(
             Icons.notifications_none,
@@ -37,10 +37,8 @@ class CommonHeader extends StatelessWidget {
         ),
         SizedBox(width: 16),
         GestureDetector(
-          onTap: () {
-            LogoutHelper.logout(context);
-          },
-          child: Icon(Icons.logout, size: 24, color: Colors.black87),
+          onTap: () => LogoutHelper.logout(context),
+          child: const Icon(Icons.logout, size: 24, color: Colors.black87),
         ),
       ],
     );
@@ -164,47 +162,41 @@ class StatCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(12), 
+      padding: EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12), 
+        borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.06),
-            blurRadius: 8, 
+            blurRadius: 8,
             offset: Offset(0, 2),
           ),
         ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment:
-            MainAxisAlignment.spaceBetween, 
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          
           Row(
             children: [
               Container(
-                padding: EdgeInsets.all(6), 
+                padding: EdgeInsets.all(6),
                 decoration: BoxDecoration(
                   color: iconBgColor,
                   borderRadius: BorderRadius.circular(6),
                 ),
-                child: Icon(
-                  icon,
-                  size: 16,
-                  color: iconColor,
-                ),
+                child: Icon(icon, size: 16, color: iconColor),
               ),
-              SizedBox(width: 8), 
+              SizedBox(width: 8),
               Expanded(
                 child: Text(
                   title,
                   style: TextStyle(
-                    fontSize: 10, 
+                    fontSize: 10,
                     color: Colors.grey.shade600,
                     fontWeight: FontWeight.w500,
-                    height: 1.1, 
+                    height: 1.1,
                   ),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
@@ -212,23 +204,23 @@ class StatCard extends StatelessWidget {
               ),
             ],
           ),
-         
+
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 mainValue,
                 style: TextStyle(
-                  fontSize: 18, 
+                  fontSize: 18,
                   fontWeight: FontWeight.w700,
                   color: mainColor,
                 ),
               ),
-              SizedBox(height: 2), 
+              SizedBox(height: 2),
               Text(
                 subValue,
                 style: TextStyle(
-                  fontSize: 10, 
+                  fontSize: 10,
                   color: Colors.grey.shade500,
                   fontWeight: FontWeight.w500,
                 ),
@@ -320,7 +312,6 @@ class NoUpcomingDeliveriesCard extends StatelessWidget {
     );
   }
 }
-
 
 class RecentActivityItem extends StatelessWidget {
   final String title;
@@ -432,62 +423,3 @@ class RecentActivityItem extends StatelessWidget {
 }
 
 
-class QuickActionCard extends StatelessWidget {
-  final IconData icon;
-  final Color iconColor;
-  final Color iconBgColor;
-  final String title;
-  final VoidCallback onTap;
-
-  const QuickActionCard({
-    super.key,
-    required this.icon,
-    required this.iconColor,
-    required this.iconBgColor,
-    required this.title,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.06),
-              blurRadius: 10,
-              offset: Offset(0, 4),
-            ),
-          ],
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              padding: EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: iconBgColor,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Icon(icon, color: iconColor, size: 24),
-            ),
-            SizedBox(height: 8),
-            Text(
-              title,
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                color: Colors.black,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
