@@ -12,7 +12,7 @@ class DeliveryBoyProfile extends StatefulWidget {
 }
 
 class _DeliveryBoyProfileState extends State<DeliveryBoyProfile> {
-  int _currentIndex = 2; // Profile tab is selected
+  
 
   @override
   Widget build(BuildContext context) {

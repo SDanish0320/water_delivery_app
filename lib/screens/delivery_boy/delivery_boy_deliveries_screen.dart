@@ -12,7 +12,7 @@ class DeliveriesPage extends StatefulWidget {
 }
 
 class _DeliveriesPageState extends State<DeliveriesPage> {
-  int _currentIndex = 1; // Deliveries tab is selected
+  
 
   @override
   Widget build(BuildContext context) {

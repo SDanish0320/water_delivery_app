@@ -204,7 +204,7 @@ class _DashboardScreen extends StatelessWidget {
                 iconColor: Color.fromARGB(255, 0, 89, 255),
                 title: '3',
                 subtitle: 'Customers',
-                backgroundColor: Color(0xFFE3F2FD)!,
+                backgroundColor: Color(0xFFE3F2FD),
               ),
               _buildOverviewCard(
                 icon: Icons.delivery_dining,
@@ -225,7 +225,7 @@ class _DashboardScreen extends StatelessWidget {
                 iconColor: Color.fromARGB(255, 0, 89, 255),
                 title: '1/2',
                 subtitle: 'Paid Invoices',
-                backgroundColor: Color(0xFFE3F2FD)!,
+                backgroundColor: Color(0xFFE3F2FD),
               ),
             ],
           ),
@@ -257,7 +257,7 @@ class _DashboardScreen extends StatelessWidget {
                 icon: Icons.people,
                 iconColor: Color.fromARGB(255, 0, 89, 255),
                 title: 'Manage Customers',
-                backgroundColor: Color(0xFFE3F2FD)!,
+                backgroundColor: Color(0xFFE3F2FD),
                 onTap: () {
                   Navigator.push(
                     context,
@@ -294,7 +294,7 @@ class _DashboardScreen extends StatelessWidget {
                 icon: Icons.receipt_long,
                 iconColor: Color.fromARGB(255, 0, 89, 255),
                 title: 'Monthly Invoices',
-                backgroundColor: Color(0xFFE3F2FD)!,
+                backgroundColor: Color(0xFFE3F2FD),
                 onTap: () {
                   Navigator.push(
                     context,

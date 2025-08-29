@@ -566,7 +566,7 @@ class _DeliveryHistoryScreenState extends State<DeliveryHistoryScreen> {
               children: [
                 Text(
                   selectedDate != null 
-                    ? '${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}'
+                    ? '${selectedDate.day}/${selectedDate.month}/${selectedDate.year}'
                     : 'Not selected',
                   style: TextStyle(
                     fontSize: 14,
