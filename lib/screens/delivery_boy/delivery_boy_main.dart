@@ -3,8 +3,13 @@ import 'package:water_delivery_app/screens/delivery_boy/delivery_boy_deliveries_
 import 'package:water_delivery_app/screens/delivery_boy/delivery_boy_delivery_history_screen.dart';
 import 'package:water_delivery_app/screens/delivery_boy/delivery_boy_profile.dart';
 import 'package:water_delivery_app/screens/delivery_boy/delivery_boy_route_map_screen.dart';
-import 'package:water_delivery_app/utils/logout_helper.dart';
-import 'package:water_delivery_app/utils/notification_screen.dart';
+import 'package:water_delivery_app/utils/date_time_helper.dart';
+import 'package:water_delivery_app/widgets/common_app_bar.dart';
+import 'package:water_delivery_app/widgets/delivery_boy/delivery_summary_card.dart';
+import 'package:water_delivery_app/widgets/delivery_boy/delivery_card.dart';
+import 'package:water_delivery_app/widgets/quick_action_card.dart';
+import 'package:water_delivery_app/constants/app_colors.dart';
+import 'package:water_delivery_app/constants/app_text_styles.dart';
 
 class DeliveryBoyMain extends StatefulWidget {
   const DeliveryBoyMain({super.key});
@@ -15,17 +20,15 @@ class DeliveryBoyMain extends StatefulWidget {
 
 class _DeliveryBoyMainState extends State<DeliveryBoyMain> {
   int _currentIndex = 0;
-
-  // Define all pages here
   late final List<Widget> _pages;
 
   @override
   void initState() {
     super.initState();
     _pages = [
-      _buildTodayPage(), // Today page content
-      DeliveriesPage(onNavigationTap: _onBottomNavTap), // Pass callback
-      DeliveryBoyProfile(onNavigationTap: _onBottomNavTap), // Pass callback
+      _buildTodayPage(),
+      DeliveriesPage(onNavigationTap: _onBottomNavTap),
+      DeliveryBoyProfile(onNavigationTap: _onBottomNavTap),
     ];
   }
 
@@ -38,80 +41,27 @@ class _DeliveryBoyMainState extends State<DeliveryBoyMain> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF8FAFC),
+      backgroundColor: AppColors.background,
       body: IndexedStack(index: _currentIndex, children: _pages),
       bottomNavigationBar: _buildBottomNavigationBar(),
     );
   }
 
-  // Today page content extracted as separate method
   Widget _buildTodayPage() {
     return Scaffold(
-      backgroundColor: Color(0xFFF8FAFC),
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        automaticallyImplyLeading: false,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              "Today's Deliveries", // yahan har page ka apna title dalna hai
-              style: const TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.w800,
-                color: Colors.black,
-              ),
-            ),
-            Row(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => NotificationsScreen(),
-                      ),
-                    );
-                  },
-                  child: const Icon(
-                    Icons.notifications_outlined,
-                    color: Colors.black87,
-                    size: 20,
-                  ),
-                ),
-                const SizedBox(width: 16),
-                GestureDetector(
-                  onTap: () => LogoutHelper.logout(context),
-                  child: const Icon(
-                    Icons.logout,
-                    size: 24,
-                    color: Colors.black87,
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
+      backgroundColor: AppColors.background,
+      appBar: const CommonAppBar(title: "Today's Deliveries"),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Welcome Card
             _buildWelcomeCard(),
-            SizedBox(height: 24),
-
-            // Daily Summary
+            const SizedBox(height: 24),
             _buildDailySummarySection(),
-            SizedBox(height: 24),
-
-            // Delivery Schedule
+            const SizedBox(height: 24),
             _buildDeliveryScheduleSection(),
-            SizedBox(height: 24),
-
-            // Quick Actions
+            const SizedBox(height: 24),
             _buildQuickActionsSection(),
           ],
         ),
@@ -119,233 +69,150 @@ class _DeliveryBoyMainState extends State<DeliveryBoyMain> {
     );
   }
 
-  Widget _buildWelcomeCard() {
-    return Container(
-      padding: EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.06),
-            blurRadius: 10,
-            offset: Offset(0, 4),
+ Widget _buildWelcomeCard() {
+  return Container(
+    padding: const EdgeInsets.all(20),
+    decoration: BoxDecoration(
+      color: AppColors.cardBackground,
+      borderRadius: BorderRadius.circular(16),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black.withOpacity(0.06),
+          blurRadius: 10,
+          offset: const Offset(0, 4),
+        ),
+      ],
+    ),
+    child: Row(
+      children: [
+        Container(
+          width: 64,
+          height: 64,
+          decoration: BoxDecoration(
+            color: AppColors.primaryLight,
+            borderRadius: BorderRadius.circular(32),
           ),
-        ],
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 64,
-            height: 64,
-            decoration: BoxDecoration(
-              color: Color(0xFFE6F3FF),
-              borderRadius: BorderRadius.circular(32),
-            ),
-            child: Icon(
-              Icons.local_shipping,
-              color: Color.fromARGB(255, 0, 89, 255),
-              size: 32,
-            ),
+          child: const Icon(
+            Icons.local_shipping,
+            color: AppColors.primary,
+            size: 28,
           ),
-          SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Hello, Alex Wilson!',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.black,
-                  ),
+        ),
+        const SizedBox(width: 16),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Hello, Alex Wilson!',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.textPrimary,
                 ),
-                SizedBox(height: 4),
-                Text(
-                  'AquaFlow Solutions',
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Color.fromARGB(255, 0, 89, 255),
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                SizedBox(height: 8),
-                Row(
-                  children: [
-                    Icon(
-                      Icons.access_time,
-                      size: 16,
-                      color: Colors.grey.shade600,
-                    ),
-                    SizedBox(width: 4),
-                    Text(
-                      'Saturday, Aug 23',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey.shade600,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-            decoration: BoxDecoration(
-              color: Color(0xFFD1FAE5),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Text(
-              'ACTIVE',
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-                color: Color(0xFF10B981),
               ),
+              const SizedBox(height: 4),
+              const Text(
+                'AquaFlow Solutions',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: AppColors.primary,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  Icon(
+                    Icons.access_time,
+                    size: 14,
+                    color: AppColors.textSecondary,
+                  ),
+                  const SizedBox(width: 4),
+                  Text(
+                    DateTimeHelper.getCurrentDate(),
+                    style: AppTextStyles.smallText,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          decoration: BoxDecoration(
+            color: AppColors.successLight,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: const Text(
+            'ACTIVE',
+            style: TextStyle(
+              fontSize: 10,
+              fontWeight: FontWeight.w500,
+              color: AppColors.success,
             ),
           ),
-        ],
-      ),
-    );
-  }
+        ),
+      ],
+    ),
+  );
+}
 
   Widget _buildDailySummarySection() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Daily Summary',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w700,
-            color: Colors.black,
-          ),
-        ),
-        SizedBox(height: 16),
+        const Text('Daily Summary', style: AppTextStyles.sectionTitle),
+        const SizedBox(height: 16),
         Row(
           children: [
             Expanded(
-              child: _buildSummaryCard(
+              child: DeliverySummaryCard(
                 icon: Icons.local_shipping,
-                iconColor: Color.fromARGB(255, 0, 89, 255),
-                iconBgColor: Color(0xFFE6F3FF),
-                title: 'Total\nDeliveries',
-                mainValue: '2',
+                iconColor: AppColors.primary,
+                iconBgColor: AppColors.primaryLight,
+                value: '2',
+                label: 'Total Deliveries',
                 subValue: '1 completed',
               ),
             ),
-            SizedBox(width: 12),
+            const SizedBox(width: 12),
             Expanded(
-              child: _buildSummaryCard(
+              child: DeliverySummaryCard(
                 icon: Icons.water_drop,
-                iconColor: Color.fromARGB(255, 0, 89, 255),
-                iconBgColor: Color(0xFFE6F3FF),
-                title: 'Bottles\nDelivered',
-                mainValue: '5',
-                subValue: '',
+                iconColor: AppColors.primary,
+                iconBgColor: AppColors.primaryLight,
+                value: '5',
+                label: 'Bottles Delivered',
               ),
             ),
           ],
         ),
-        SizedBox(height: 12),
+        const SizedBox(height: 12),
         Row(
           children: [
             Expanded(
-              child: _buildSummaryCard(
+              child: DeliverySummaryCard(
                 icon: Icons.more_horiz,
-                iconColor: Color(0xFFFF8C00),
-                iconBgColor: Color(0xFFFFF3CD),
-                title: 'Pending',
-                mainValue: '0',
-                subValue: '',
+                iconColor: AppColors.warning,
+                iconBgColor: AppColors.warningLight,
+                value: '0',
+                label: 'Pending',
               ),
             ),
-            SizedBox(width: 12),
+            const SizedBox(width: 12),
             Expanded(
-              child: _buildSummaryCard(
+              child: DeliverySummaryCard(
                 icon: Icons.local_shipping,
-                iconColor: Color(0xFF10B981),
-                iconBgColor: Color(0xFFD1FAE5),
-                title: 'In Progress',
-                mainValue: '1',
-                subValue: '',
+                iconColor: AppColors.success,
+                iconBgColor: AppColors.successLight,
+                value: '1',
+                label: 'In Progress',
               ),
             ),
           ],
         ),
       ],
-    );
-  }
-
-  Widget _buildSummaryCard({
-    required IconData icon,
-    required Color iconColor,
-    required Color iconBgColor,
-    required String title,
-    required String mainValue,
-    required String subValue,
-  }) {
-    return Container(
-      padding: EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.06),
-            blurRadius: 8,
-            offset: Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Container(
-                padding: EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: iconBgColor,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Icon(icon, size: 20, color: iconColor),
-              ),
-              SizedBox(width: 8),
-              Expanded(
-                child: Text(
-                  title,
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey.shade600,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 12),
-          Text(
-            mainValue,
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.w700,
-              color: iconColor,
-            ),
-          ),
-          if (subValue.isNotEmpty)
-            Text(
-              subValue,
-              style: TextStyle(
-                fontSize: 12,
-                color: Colors.grey.shade500,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-        ],
-      ),
     );
   }
 
@@ -356,202 +223,49 @@ class _DeliveryBoyMainState extends State<DeliveryBoyMain> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              'Delivery Schedule',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w700,
-                color: Colors.black,
-              ),
-            ),
+            const Text('Delivery Schedule', style: AppTextStyles.sectionTitle),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               decoration: BoxDecoration(
-                color: Color(0xFFE6F3FF),
+                color: AppColors.primaryLight,
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: Text(
+              child: const Text(
                 '2 stops',
                 style: TextStyle(
-                  fontSize: 12,
+                  fontSize: 10,
                   fontWeight: FontWeight.w600,
-                  color: Color.fromARGB(255, 0, 89, 255),
+                  color: AppColors.primary,
                 ),
               ),
             ),
           ],
         ),
-        SizedBox(height: 16),
-        _buildDeliveryItem(
+        const SizedBox(height: 16),
+        DeliveryCard(
           number: 1,
           name: 'Robert Taylor',
           address: '456 Pine Avenue, House 12',
-          bottles: '3 bottles',
+          bottles: '3',
           amount: '\$90.00',
           status: 'IN PROGRESS',
-          statusColor: Color.fromARGB(255, 0, 89, 255),
-          statusBgColor: Color(0xFFE6F3FF),
+          statusColor: AppColors.primary,
+          statusBgColor: AppColors.primaryLight,
           showCompleteButton: true,
+          onComplete: () {},
         ),
-        SizedBox(height: 12),
-        _buildDeliveryItem(
+        const SizedBox(height: 12),
+        const DeliveryCard(
           number: 2,
           name: 'Emily Chen',
           address: '123 Oak Street, Apartment 4B',
-          bottles: '2 bottles',
+          bottles: '2',
           amount: '\$50.00',
           status: 'DELIVERED',
-          statusColor: Color(0xFF10B981),
-          statusBgColor: Color(0xFFD1FAE5),
-          showCompleteButton: false,
+          statusColor: AppColors.success,
+          statusBgColor: AppColors.successLight,
         ),
       ],
-    );
-  }
-
-  Widget _buildDeliveryItem({
-    required int number,
-    required String name,
-    required String address,
-    required String bottles,
-    required String amount,
-    required String status,
-    required Color statusColor,
-    required Color statusBgColor,
-    required bool showCompleteButton,
-  }) {
-    return Container(
-      padding: EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.06),
-            blurRadius: 10,
-            offset: Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Container(
-                width: 32,
-                height: 32,
-                decoration: BoxDecoration(
-                  color: statusBgColor,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Center(
-                  child: Text(
-                    number.toString(),
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                      color: statusColor,
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Text(
-                          name,
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black,
-                          ),
-                        ),
-                        Spacer(),
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 8,
-                            vertical: 4,
-                          ),
-                          decoration: BoxDecoration(
-                            color: statusBgColor,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Text(
-                            status,
-                            style: TextStyle(
-                              fontSize: 10,
-                              fontWeight: FontWeight.w600,
-                              color: statusColor,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 4),
-                    Text(
-                      address,
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey.shade600,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 12),
-          Row(
-            children: [
-              Icon(
-                Icons.water_drop,
-                size: 16,
-                color: Color.fromARGB(255, 0, 89, 255),
-              ),
-              SizedBox(width: 4),
-              Text(
-                bottles,
-                style: TextStyle(fontSize: 14, color: Colors.grey.shade600),
-              ),
-              SizedBox(width: 16),
-              Icon(Icons.attach_money, size: 16, color: Color(0xFF10B981)),
-              SizedBox(width: 4),
-              Text(
-                amount,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black,
-                ),
-              ),
-              Spacer(),
-              if (showCompleteButton)
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    foregroundColor: Colors.grey.shade700,
-                    elevation: 0,
-                    side: BorderSide(color: Colors.grey.shade300),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  ),
-                  child: Text(
-                    'Complete',
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-                  ),
-                ),
-            ],
-          ),
-        ],
-      ),
     );
   }
 
@@ -559,43 +273,38 @@ class _DeliveryBoyMainState extends State<DeliveryBoyMain> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Quick Actions',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w700,
-            color: Colors.black,
-          ),
-        ),
-        SizedBox(height: 16),
+        const Text('Quick Actions', style: AppTextStyles.sectionTitle),
+        const SizedBox(height: 16),
         Row(
           children: [
             Expanded(
-              child: _buildQuickActionCard(
+              child: QuickActionCard(
                 icon: Icons.map,
-                iconColor: Color.fromARGB(255, 0, 89, 255),
-                iconBgColor: Color(0xFFE6F3FF),
+                iconColor: AppColors.primary,
+                iconBgColor: AppColors.primaryLight,
                 title: 'Route Map',
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => RouteMapScreen()),
+                    MaterialPageRoute(
+                      builder: (context) => const RouteMapScreen(),
+                    ),
                   );
                 },
               ),
             ),
-            SizedBox(width: 12),
+            const SizedBox(width: 12),
             Expanded(
-              child: _buildQuickActionCard(
+              child: QuickActionCard(
                 icon: Icons.history,
-                iconColor: Color(0xFF10B981),
-                iconBgColor: Color(0xFFD1FAE5),
+                iconColor: AppColors.success,
+                iconBgColor: AppColors.successLight,
                 title: 'Delivery History',
                 onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => DeliveryHistoryScreen(),
+                      builder: (context) => const DeliveryHistoryScreen(),
                     ),
                   );
                 },
@@ -603,24 +312,24 @@ class _DeliveryBoyMainState extends State<DeliveryBoyMain> {
             ),
           ],
         ),
-        SizedBox(height: 12),
+        const SizedBox(height: 12),
         Row(
           children: [
             Expanded(
-              child: _buildQuickActionCard(
+              child: QuickActionCard(
                 icon: Icons.phone,
-                iconColor: Color(0xFFDC2626),
-                iconBgColor: Color(0xFFFEE2E2),
+                iconColor: AppColors.danger,
+                iconBgColor: AppColors.dangerLight,
                 title: 'Emergency',
                 onTap: () {},
               ),
             ),
-            SizedBox(width: 12),
+            const SizedBox(width: 12),
             Expanded(
-              child: _buildQuickActionCard(
+              child: QuickActionCard(
                 icon: Icons.warning,
-                iconColor: Color(0xFFFF8C00),
-                iconBgColor: Color(0xFFFFF3CD),
+                iconColor: AppColors.warning,
+                iconBgColor: AppColors.warningLight,
                 title: 'Report Issue',
                 onTap: () {},
               ),
@@ -631,63 +340,15 @@ class _DeliveryBoyMainState extends State<DeliveryBoyMain> {
     );
   }
 
-  Widget _buildQuickActionCard({
-    required IconData icon,
-    required Color iconColor,
-    required Color iconBgColor,
-    required String title,
-    required VoidCallback onTap,
-  }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.06),
-              blurRadius: 10,
-              offset: Offset(0, 4),
-            ),
-          ],
-        ),
-        child: Column(
-          children: [
-            Container(
-              padding: EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: iconBgColor,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Icon(icon, color: iconColor, size: 24),
-            ),
-            SizedBox(height: 8),
-            Text(
-              title,
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                color: Colors.black,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   Widget _buildBottomNavigationBar() {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.cardBackground,
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.06),
             blurRadius: 10,
-            offset: Offset(0, -2),
+            offset: const Offset(0, -2),
           ),
         ],
       ),
@@ -699,18 +360,18 @@ class _DeliveryBoyMainState extends State<DeliveryBoyMain> {
           });
         },
         type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.white,
-        selectedItemColor: Color.fromARGB(255, 0, 89, 255),
+        backgroundColor: AppColors.cardBackground,
+        selectedItemColor: AppColors.primary,
         unselectedItemColor: Colors.grey.shade600,
-        selectedLabelStyle: TextStyle(
-          fontSize: 12,
+        selectedLabelStyle: const TextStyle(
+          fontSize: 10,
           fontWeight: FontWeight.w600,
         ),
-        unselectedLabelStyle: TextStyle(
-          fontSize: 12,
+        unselectedLabelStyle: const TextStyle(
+          fontSize: 10,
           fontWeight: FontWeight.w500,
         ),
-        items: [
+        items: const [
           BottomNavigationBarItem(icon: Icon(Icons.today), label: 'Today'),
           BottomNavigationBarItem(
             icon: Icon(Icons.local_shipping),

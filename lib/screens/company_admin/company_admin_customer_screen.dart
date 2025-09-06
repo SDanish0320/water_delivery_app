@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:water_delivery_app/constants/app_colors.dart';
+import 'package:water_delivery_app/constants/app_text_styles.dart';
+import 'package:water_delivery_app/widgets/common_app_bar.dart';
+import 'package:water_delivery_app/widgets/status_chip.dart';
 import 'package:water_delivery_app/utils/add_customer.dart';
 import 'package:water_delivery_app/utils/add_delivery_boy.dart';
 
@@ -39,34 +43,17 @@ class _CustomersScreenState extends State<CustomersScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        centerTitle: false,
-        title: const Text(
-          'Customers',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w700,
-            color: Colors.black,
-          ),
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.search,
-              color: Color.fromARGB(255, 0, 89, 255),
-            ),
-          ),
-        ],
+      backgroundColor: AppColors.background,
+      appBar: const CommonAppBar(
+        title: 'Customers',
+        showNotification: false,
+        showLogout: false,
+        leading: BackButton(),
       ),
       body: Column(
         children: [
-          // Filter and sort buttons
           Container(
-            color: Colors.white,
+            color: AppColors.cardBackground,
             padding: const EdgeInsets.all(16),
             child: Row(
               children: [
@@ -74,15 +61,16 @@ class _CustomersScreenState extends State<CustomersScreen> {
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     decoration: BoxDecoration(
-                      color: Colors.grey[100],
+                      color: AppColors.background,
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: TextField(
                       controller: _searchController,
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         hintText: 'Search customers...',
                         border: InputBorder.none,
-                        prefixIcon: Icon(Icons.search, color: Colors.grey),
+                        prefixIcon: Icon(Icons.search, color: AppColors.textTertiary),
+                        hintStyle: TextStyle(color: AppColors.textTertiary),
                       ),
                     ),
                   ),
@@ -91,30 +79,29 @@ class _CustomersScreenState extends State<CustomersScreen> {
                 Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: Color(0xFFE3F2FD),
+                    color: AppColors.primaryLight,
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: const Icon(
                     Icons.bookmark_outline,
-                    color: Color.fromARGB(255, 0, 89, 255),
+                    color: AppColors.primary,
                   ),
                 ),
                 const SizedBox(width: 8),
                 Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: Color(0xFFE3F2FD),
+                    color: AppColors.primaryLight,
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: const Icon(
                     Icons.tune,
-                    color: Color.fromARGB(255, 0, 89, 255),
+                    color: AppColors.primary,
                   ),
                 ),
               ],
             ),
           ),
-          // Customer List
           Expanded(
             child: ListView.builder(
               padding: const EdgeInsets.all(16),
@@ -125,12 +112,11 @@ class _CustomersScreenState extends State<CustomersScreen> {
                   margin: const EdgeInsets.only(bottom: 16),
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: AppColors.cardBackground,
                     borderRadius: BorderRadius.circular(16),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.grey.withOpacity(0.1),
-                        spreadRadius: 1,
+                        color: Colors.black.withOpacity(0.06),
                         blurRadius: 10,
                         offset: const Offset(0, 2),
                       ),
@@ -144,45 +130,35 @@ class _CustomersScreenState extends State<CustomersScreen> {
                         children: [
                           Text(
                             customer["name"]!,
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
+                            style: AppTextStyles.sectionTitle,
                           ),
-                          const Icon(Icons.more_vert, color: Colors.grey),
+                          Icon(Icons.more_vert, color: AppColors.textTertiary),
                         ],
                       ),
                       const SizedBox(height: 12),
                       Row(
                         children: [
-                          const Icon(Icons.phone, color: Colors.grey, size: 18),
+                          Icon(Icons.phone, color: AppColors.textTertiary, size: 18),
                           const SizedBox(width: 8),
                           Text(
                             customer["phone"]!,
-                            style: const TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey,
-                            ),
+                            style: AppTextStyles.bodyText,
                           ),
                         ],
                       ),
                       const SizedBox(height: 8),
                       Row(
                         children: [
-                          const Icon(
+                          Icon(
                             Icons.location_on,
-                            color: Colors.grey,
+                            color: AppColors.textTertiary,
                             size: 18,
                           ),
                           const SizedBox(width: 8),
                           Expanded(
                             child: Text(
                               customer["address"]!,
-                              style: const TextStyle(
-                                fontSize: 14,
-                                color: Colors.grey,
-                              ),
+                              style: AppTextStyles.bodyText,
                             ),
                           ),
                         ],
@@ -191,29 +167,14 @@ class _CustomersScreenState extends State<CustomersScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 12,
-                              vertical: 6,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Color(0xFFE3F2FD),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Text(
-                              customer["bottles"]!,
-                              style: const TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600,
-                                color: Color.fromARGB(255, 0, 89, 255),
-                              ),
-                            ),
+                          StatusChip(
+                            text: customer["bottles"]!,
+                            textColor: AppColors.primary,
+                            backgroundColor: AppColors.primaryLight,
                           ),
                           Text(
                             customer["instructions"]!,
-                            style: const TextStyle(
-                              fontSize: 12,
-                              color: Colors.grey,
+                            style: AppTextStyles.smallText.copyWith(
                               fontStyle: FontStyle.italic,
                             ),
                           ),
@@ -228,11 +189,11 @@ class _CustomersScreenState extends State<CustomersScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Color.fromARGB(255, 0, 89, 255),
+        backgroundColor: AppColors.primary,
         onPressed: () {
           showModalBottomSheet(
             context: context,
-            backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+            backgroundColor: AppColors.cardBackground,
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
             ),
@@ -244,12 +205,11 @@ class _CustomersScreenState extends State<CustomersScreen> {
                     ListTile(
                       leading: const Icon(
                         Icons.person_add,
-                        color: Color.fromARGB(255, 0, 89, 255),
+                        color: AppColors.primary,
                       ),
                       title: const Text('Add Customer'),
                       onTap: () {
                         Navigator.pop(context);
-                        // Navigate to AddCustomerScreen instead of dialog
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -261,12 +221,11 @@ class _CustomersScreenState extends State<CustomersScreen> {
                     ListTile(
                       leading: const Icon(
                         Icons.delivery_dining,
-                        color: Color.fromARGB(255, 0, 89, 255),
+                        color: AppColors.primary,
                       ),
                       title: const Text('Add Delivery Boy'),
                       onTap: () {
                         Navigator.pop(context);
-                        // Navigate to AddDeliveryBoyScreen instead of dialog
                         Navigator.push(
                           context,
                           MaterialPageRoute(

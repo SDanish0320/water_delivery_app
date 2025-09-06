@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import '../theme/app_theme.dart';
+import '../../../constants/app_colors.dart';
+import '../../../constants/app_text_styles.dart';
 
-class RoleSelector extends StatelessWidget {
+class AuthRoleSelector extends StatelessWidget {
   final int selectedIndex;
   final Function(int) onRoleSelected;
 
-  const RoleSelector({
+  const AuthRoleSelector({
     super.key,
     required this.selectedIndex,
     required this.onRoleSelected,
@@ -29,21 +30,20 @@ class RoleSelector extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: isSelected ? AppTheme.primaryColor : Colors.grey.shade200,
+              color: isSelected ? AppColors.primary : AppColors.textTertiary.withOpacity(0.2),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Column(
               children: [
                 Icon(
                   roles[index]['icon'],
-                  color: isSelected ? Colors.white : Colors.black54,
+                  color: isSelected ? Colors.white : AppColors.textSecondary,
                 ),
                 const SizedBox(height: 4),
                 Text(
                   roles[index]['label'],
-                  style: TextStyle(
-                    fontSize: 10,
-                    color: isSelected ? Colors.white : Colors.black87,
+                  style: AppTextStyles.statusText.copyWith(
+                    color: isSelected ? Colors.white : AppColors.textPrimary,
                   ),
                 ),
               ],

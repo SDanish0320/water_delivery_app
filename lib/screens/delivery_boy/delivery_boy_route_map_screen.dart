@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
+import 'package:water_delivery_app/widgets/common_app_bar.dart';
+import 'package:water_delivery_app/constants/app_colors.dart';
+import 'package:water_delivery_app/constants/app_text_styles.dart';
 
 class RouteMapScreen extends StatefulWidget {
   const RouteMapScreen({super.key});
@@ -11,12 +14,12 @@ class RouteMapScreen extends StatefulWidget {
 
 class _RouteMapScreenState extends State<RouteMapScreen> {
   GoogleMapController? mapController;
-  int selectedTab = 0; // 0 = Deliveries, 1 = Customers
+  int selectedTab = 0;
   Completer<GoogleMapController> _controller = Completer();
   bool _isMapReady = false;
   bool _hasError = false;
 
-  final LatLng _center = const LatLng(24.8607, 67.0011); // Karachi coordinates
+  final LatLng _center = const LatLng(24.8607, 67.0011);
 
   final List<Map<String, dynamic>> deliveries = [
     {
@@ -26,11 +29,11 @@ class _RouteMapScreenState extends State<RouteMapScreen> {
       'time': '09:30 AM',
       'date': '2025-08-06',
       'status': 'Completed',
-      'statusColor': Color(0xFF10B981),
-      'statusBgColor': Color(0xFFD1FAE5),
+      'statusColor': AppColors.success,
+      'statusBgColor': AppColors.successLight,
       'icon': Icons.local_shipping,
-      'iconColor': Color(0xFF10B981),
-      'iconBgColor': Color(0xFFD1FAE5),
+      'iconColor': AppColors.success,
+      'iconBgColor': AppColors.successLight,
     },
     {
       'name': 'Jane Smith',
@@ -39,11 +42,11 @@ class _RouteMapScreenState extends State<RouteMapScreen> {
       'time': '10:00 AM',
       'date': '2025-08-06',
       'status': 'Pending',
-      'statusColor': Color(0xFFFF8C00),
-      'statusBgColor': Color(0xFFFFF3CD),
+      'statusColor': AppColors.warning,
+      'statusBgColor': AppColors.warningLight,
       'icon': Icons.local_shipping,
-      'iconColor': Color(0xFFFF8C00),
-      'iconBgColor': Color(0xFFFFF3CD),
+      'iconColor': AppColors.warning,
+      'iconBgColor': AppColors.warningLight,
     },
     {
       'name': 'Sarah Wilson',
@@ -52,11 +55,11 @@ class _RouteMapScreenState extends State<RouteMapScreen> {
       'time': '11:00 AM',
       'date': '2025-08-06',
       'status': 'Completed',
-      'statusColor': Color(0xFF10B981),
-      'statusBgColor': Color(0xFFD1FAE5),
+      'statusColor': AppColors.success,
+      'statusBgColor': AppColors.successLight,
       'icon': Icons.local_shipping,
-      'iconColor': Color(0xFF10B981),
-      'iconBgColor': Color(0xFFD1FAE5),
+      'iconColor': AppColors.success,
+      'iconBgColor': AppColors.successLight,
     },
     {
       'name': 'David Brown',
@@ -65,11 +68,11 @@ class _RouteMapScreenState extends State<RouteMapScreen> {
       'time': '12:30 PM',
       'date': '2025-08-06',
       'status': 'Pending',
-      'statusColor': Color(0xFFFF8C00),
-      'statusBgColor': Color(0xFFFFF3CD),
+      'statusColor': AppColors.warning,
+      'statusBgColor': AppColors.warningLight,
       'icon': Icons.local_shipping,
-      'iconColor': Color(0xFFFF8C00),
-      'iconBgColor': Color(0xFFFFF3CD),
+      'iconColor': AppColors.warning,
+      'iconBgColor': AppColors.warningLight,
     },
   ];
 
@@ -80,8 +83,8 @@ class _RouteMapScreenState extends State<RouteMapScreen> {
       'deliveries': 6,
       'lastDelivery': 'Today',
       'status': 'Active',
-      'statusColor': Color(0xFF10B981),
-      'statusBgColor': Color(0xFFD1FAE5),
+      'statusColor': AppColors.success,
+      'statusBgColor': AppColors.successLight,
     },
     {
       'name': 'David Brown',
@@ -89,8 +92,8 @@ class _RouteMapScreenState extends State<RouteMapScreen> {
       'deliveries': 9,
       'lastDelivery': 'Yesterday',
       'status': 'Active',
-      'statusColor': Color(0xFF10B981),
-      'statusBgColor': Color(0xFFD1FAE5),
+      'statusColor': AppColors.success,
+      'statusBgColor': AppColors.successLight,
     },
   ];
 
@@ -102,13 +105,11 @@ class _RouteMapScreenState extends State<RouteMapScreen> {
 
   void _initializeMap() async {
     try {
-      // Add a small delay to ensure proper initialization
-      await Future.delayed(Duration(milliseconds: 500));
+      await Future.delayed(const Duration(milliseconds: 500));
       setState(() {
         _isMapReady = true;
       });
     } catch (e) {
-      print('Map initialization error: $e');
       setState(() {
         _hasError = true;
       });
@@ -118,25 +119,18 @@ class _RouteMapScreenState extends State<RouteMapScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
+      backgroundColor: AppColors.cardBackground,
+      appBar: CommonAppBar(
+        title: 'Map View',
+        showNotification: false,
+        showLogout: false,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black87),
+          icon: const Icon(Icons.arrow_back, color: Colors.black87),
           onPressed: () => Navigator.pop(context),
-        ),
-        title: Text(
-          'Map View',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w700,
-            color: Colors.black,
-          ),
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.my_location, color: Color(0xFF3B82F6)),
+            icon: const Icon(Icons.my_location, color: AppColors.primary),
             onPressed: () async {
               if (mapController != null) {
                 try {
@@ -158,13 +152,11 @@ class _RouteMapScreenState extends State<RouteMapScreen> {
       ),
       body: Column(
         children: [
-          // Map Section
           Expanded(
             flex: 3,
             child: Stack(
               children: [
                 _buildMap(),
-                // Legend
                 Positioned(
                   top: 16,
                   right: 16,
@@ -173,16 +165,11 @@ class _RouteMapScreenState extends State<RouteMapScreen> {
               ],
             ),
           ),
-
-          // Bottom Section
           Expanded(
             flex: 2,
             child: Column(
               children: [
-                // Tab Buttons
                 _buildTabButtons(),
-
-                // Content
                 Expanded(
                   child: selectedTab == 0
                       ? _buildDeliveriesTab()
@@ -211,24 +198,22 @@ class _RouteMapScreenState extends State<RouteMapScreen> {
                 size: 64,
                 color: Colors.grey.shade400,
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Text(
                 'Map unavailable',
-                style: TextStyle(
+                style: AppTextStyles.cardTitle.copyWith(
                   fontSize: 18,
-                  fontWeight: FontWeight.w600,
                   color: Colors.grey.shade600,
                 ),
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Text(
                 'Please check your internet connection',
-                style: TextStyle(
-                  fontSize: 14,
+                style: AppTextStyles.bodyText.copyWith(
                   color: Colors.grey.shade500,
                 ),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () {
                   setState(() {
@@ -237,7 +222,7 @@ class _RouteMapScreenState extends State<RouteMapScreen> {
                   });
                   _initializeMap();
                 },
-                child: Text('Retry'),
+                child: const Text('Retry'),
               ),
             ],
           ),
@@ -254,14 +239,13 @@ class _RouteMapScreenState extends State<RouteMapScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF3B82F6)),
+              const CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Text(
                 'Loading map...',
-                style: TextStyle(
-                  fontSize: 16,
+                style: AppTextStyles.cardTitle.copyWith(
                   color: Colors.grey.shade600,
                 ),
               ),
@@ -278,9 +262,7 @@ class _RouteMapScreenState extends State<RouteMapScreen> {
             _controller.complete(controller);
           }
           mapController = controller;
-          print('Map created successfully');
         } catch (e) {
-          print('Map creation error: $e');
           setState(() {
             _hasError = true;
           });
@@ -302,26 +284,20 @@ class _RouteMapScreenState extends State<RouteMapScreen> {
       buildingsEnabled: true,
       indoorViewEnabled: false,
       liteModeEnabled: false,
-      onCameraMove: (CameraPosition position) {
-        // Handle camera movement if needed
-      },
-      onCameraIdle: () {
-        // Handle when camera stops moving
-      },
     );
   }
 
   Widget _buildLegend() {
     return Container(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.cardBackground,
         borderRadius: BorderRadius.circular(8),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.1),
             blurRadius: 8,
-            offset: Offset(0, 2),
+            offset: const Offset(0, 2),
           ),
         ],
       ),
@@ -331,32 +307,16 @@ class _RouteMapScreenState extends State<RouteMapScreen> {
         children: [
           Text(
             'Legend',
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-              color: Colors.black,
-            ),
+            style: AppTextStyles.cardTitle.copyWith(fontSize: 14),
           ),
-          SizedBox(height: 12),
-          _buildLegendItem(
-            color: Color(0xFF3B82F6),
-            label: 'Customer',
-          ),
-          SizedBox(height: 8),
-          _buildLegendItem(
-            color: Color(0xFF10B981),
-            label: 'Completed',
-          ),
-          SizedBox(height: 8),
-          _buildLegendItem(
-            color: Color(0xFFFF8C00),
-            label: 'Pending',
-          ),
-          SizedBox(height: 8),
-          _buildLegendItem(
-            color: Color(0xFFDC2626),
-            label: 'Cancelled',
-          ),
+          const SizedBox(height: 12),
+          _buildLegendItem(color: AppColors.primary, label: 'Customer'),
+          const SizedBox(height: 8),
+          _buildLegendItem(color: AppColors.success, label: 'Completed'),
+          const SizedBox(height: 8),
+          _buildLegendItem(color: AppColors.warning, label: 'Pending'),
+          const SizedBox(height: 8),
+          _buildLegendItem(color: AppColors.danger, label: 'Cancelled'),
         ],
       ),
     );
@@ -373,13 +333,10 @@ class _RouteMapScreenState extends State<RouteMapScreen> {
             shape: BoxShape.circle,
           ),
         ),
-        SizedBox(width: 8),
+        const SizedBox(width: 8),
         Text(
           label,
-          style: TextStyle(
-            fontSize: 12,
-            color: Colors.grey.shade600,
-          ),
+          style: AppTextStyles.smallText,
         ),
       ],
     );
@@ -387,7 +344,7 @@ class _RouteMapScreenState extends State<RouteMapScreen> {
 
   Widget _buildTabButtons() {
     return Container(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       child: Row(
         children: [
           Expanded(
@@ -398,21 +355,19 @@ class _RouteMapScreenState extends State<RouteMapScreen> {
                 });
               },
               child: Container(
-                padding: EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.symmetric(vertical: 12),
                 decoration: BoxDecoration(
                   color: selectedTab == 0
-                      ? Color(0xFF3B82F6)
+                      ? AppColors.primary
                       : Colors.grey.shade200,
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Center(
                   child: Text(
                     'Deliveries',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
+                    style: AppTextStyles.cardTitle.copyWith(
                       color: selectedTab == 0
-                          ? Colors.white
+                          ? AppColors.cardBackground
                           : Colors.grey.shade600,
                     ),
                   ),
@@ -420,7 +375,7 @@ class _RouteMapScreenState extends State<RouteMapScreen> {
               ),
             ),
           ),
-          SizedBox(width: 16),
+          const SizedBox(width: 16),
           Expanded(
             child: GestureDetector(
               onTap: () {
@@ -429,21 +384,19 @@ class _RouteMapScreenState extends State<RouteMapScreen> {
                 });
               },
               child: Container(
-                padding: EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.symmetric(vertical: 12),
                 decoration: BoxDecoration(
                   color: selectedTab == 1
-                      ? Color(0xFF3B82F6)
+                      ? AppColors.primary
                       : Colors.grey.shade200,
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Center(
                   child: Text(
                     'Customers',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
+                    style: AppTextStyles.cardTitle.copyWith(
                       color: selectedTab == 1
-                          ? Colors.white
+                          ? AppColors.cardBackground
                           : Colors.grey.shade600,
                     ),
                   ),
@@ -458,7 +411,7 @@ class _RouteMapScreenState extends State<RouteMapScreen> {
 
   Widget _buildDeliveriesTab() {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         children: [
           Row(
@@ -466,28 +419,22 @@ class _RouteMapScreenState extends State<RouteMapScreen> {
             children: [
               Text(
                 'Today\'s Deliveries (${deliveries.length})',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.black,
-                ),
+                style: AppTextStyles.sectionTitle,
               ),
               GestureDetector(
-                onTap: () {
-                  // Navigate to full deliveries list
-                },
-                child: Text(
+                onTap: () {},
+                child: const Text(
                   'View All',
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
-                    color: Color(0xFF3B82F6),
+                    color: AppColors.primary,
                   ),
                 ),
               ),
             ],
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           Expanded(
             child: ListView.builder(
               itemCount: deliveries.length,
@@ -503,7 +450,7 @@ class _RouteMapScreenState extends State<RouteMapScreen> {
 
   Widget _buildCustomersTab() {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         children: [
           Row(
@@ -511,28 +458,22 @@ class _RouteMapScreenState extends State<RouteMapScreen> {
             children: [
               Text(
                 'All Customers (${customers.length})',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.black,
-                ),
+                style: AppTextStyles.sectionTitle,
               ),
               GestureDetector(
-                onTap: () {
-                  // Navigate to full customers list
-                },
-                child: Text(
+                onTap: () {},
+                child: const Text(
                   'View All',
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
-                    color: Color(0xFF3B82F6),
+                    color: AppColors.primary,
                   ),
                 ),
               ),
             ],
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           Expanded(
             child: ListView.builder(
               itemCount: customers.length,
@@ -548,16 +489,16 @@ class _RouteMapScreenState extends State<RouteMapScreen> {
 
   Widget _buildDeliveryItem(Map<String, dynamic> delivery) {
     return Container(
-      margin: EdgeInsets.only(bottom: 16),
-      padding: EdgeInsets.all(16),
+      margin: const EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.cardBackground,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.06),
             blurRadius: 8,
-            offset: Offset(0, 2),
+            offset: const Offset(0, 2),
           ),
         ],
       ),
@@ -576,7 +517,7 @@ class _RouteMapScreenState extends State<RouteMapScreen> {
               size: 24,
             ),
           ),
-          SizedBox(width: 16),
+          const SizedBox(width: 16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -586,46 +527,33 @@ class _RouteMapScreenState extends State<RouteMapScreen> {
                     Expanded(
                       child: Text(
                         delivery['name'],
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black,
-                        ),
+                        style: AppTextStyles.cardTitle,
                       ),
                     ),
                     Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 4),
                       decoration: BoxDecoration(
                         color: delivery['statusBgColor'],
                         borderRadius: BorderRadius.circular(6),
                       ),
                       child: Text(
                         delivery['status'],
-                        style: TextStyle(
-                          fontSize: 10,
-                          fontWeight: FontWeight.w600,
-                          color: delivery['statusColor'],
-                        ),
+                        style: AppTextStyles.statusText
+                            .copyWith(color: delivery['statusColor']),
                       ),
                     ),
                   ],
                 ),
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 Text(
                   delivery['address'],
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey.shade600,
-                  ),
+                  style: AppTextStyles.bodyText,
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 Text(
                   '${delivery['bottles']} bottles    ${delivery['date']} • ${delivery['time']}',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey.shade500,
-                  ),
+                  style: AppTextStyles.smallText,
                 ),
               ],
             ),
@@ -642,16 +570,16 @@ class _RouteMapScreenState extends State<RouteMapScreen> {
 
   Widget _buildCustomerItem(Map<String, dynamic> customer) {
     return Container(
-      margin: EdgeInsets.only(bottom: 16),
-      padding: EdgeInsets.all(16),
+      margin: const EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.cardBackground,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.06),
             blurRadius: 8,
-            offset: Offset(0, 2),
+            offset: const Offset(0, 2),
           ),
         ],
       ),
@@ -661,16 +589,16 @@ class _RouteMapScreenState extends State<RouteMapScreen> {
             width: 48,
             height: 48,
             decoration: BoxDecoration(
-              color: Color(0xFFE6F3FF),
+              color: AppColors.primaryLight,
               borderRadius: BorderRadius.circular(24),
             ),
-            child: Icon(
+            child: const Icon(
               Icons.person,
-              color: Color(0xFF3B82F6),
+              color: AppColors.primary,
               size: 24,
             ),
           ),
-          SizedBox(width: 16),
+          const SizedBox(width: 16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -680,46 +608,33 @@ class _RouteMapScreenState extends State<RouteMapScreen> {
                     Expanded(
                       child: Text(
                         customer['name'],
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black,
-                        ),
+                        style: AppTextStyles.cardTitle,
                       ),
                     ),
                     Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 4),
                       decoration: BoxDecoration(
                         color: customer['statusBgColor'],
                         borderRadius: BorderRadius.circular(6),
                       ),
                       child: Text(
                         customer['status'],
-                        style: TextStyle(
-                          fontSize: 10,
-                          fontWeight: FontWeight.w600,
-                          color: customer['statusColor'],
-                        ),
+                        style: AppTextStyles.statusText
+                            .copyWith(color: customer['statusColor']),
                       ),
                     ),
                   ],
                 ),
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 Text(
                   customer['address'],
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey.shade600,
-                  ),
+                  style: AppTextStyles.bodyText,
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 Text(
                   '${customer['deliveries']} deliveries    Last: ${customer['lastDelivery']}',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey.shade500,
-                  ),
+                  style: AppTextStyles.smallText,
                 ),
               ],
             ),

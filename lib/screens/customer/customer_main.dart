@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:water_delivery_app/constants/app_colors.dart';
+import 'package:water_delivery_app/screens/customer/customer_dashboard.dart';
 import 'package:water_delivery_app/screens/customer/customer_invoices.dart';
 import 'package:water_delivery_app/screens/customer/customer_profile.dart';
 import 'package:water_delivery_app/screens/customer/customer_records.dart';
 
-import 'customer_home.dart';
-
 class CustomerMain extends StatefulWidget {
-  const CustomerMain({super.key});
+  const CustomerMain({Key? key}) : super(key: key);
 
   @override
   State<CustomerMain> createState() => _CustomerMainState();
@@ -14,7 +14,6 @@ class CustomerMain extends StatefulWidget {
 
 class _CustomerMainState extends State<CustomerMain> {
   int _index = 0;
-  final Color primaryBlue = const Color.fromARGB(255, 0, 89, 255);
 
   final _pages = const [
     CustomerDashboard(),
@@ -30,7 +29,7 @@ class _CustomerMainState extends State<CustomerMain> {
       isScrollControlled: true,
       builder: (context) => Container(
         decoration: const BoxDecoration(
-          color: Colors.white,
+          color: AppColors.cardBackground,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(20),
             topRight: Radius.circular(20),
@@ -39,24 +38,22 @@ class _CustomerMainState extends State<CustomerMain> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Handle bar
             Container(
               margin: const EdgeInsets.only(top: 12, bottom: 20),
               height: 4,
               width: 40,
               decoration: BoxDecoration(
-                color: Colors.grey.shade300,
+                color: AppColors.textTertiary,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
             
-            // Options
             _buildBottomSheetOption(
               icon: Icons.history,
               title: 'View Delivery Records',
               onTap: () {
                 Navigator.pop(context);
-                setState(() => _index = 1); // Navigate to Records tab
+                setState(() => _index = 1);
               },
             ),
             
@@ -65,7 +62,7 @@ class _CustomerMainState extends State<CustomerMain> {
               title: 'View Invoices',
               onTap: () {
                 Navigator.pop(context);
-                setState(() => _index = 2); // Navigate to Invoices tab
+                setState(() => _index = 2);
               },
             ),
             
@@ -90,12 +87,12 @@ class _CustomerMainState extends State<CustomerMain> {
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: primaryBlue.withOpacity(0.1),
+                color: AppColors.primaryLight,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Icon(
                 icon,
-                color: primaryBlue,
+                color: AppColors.primary,
                 size: 20,
               ),
             ),
@@ -105,6 +102,7 @@ class _CustomerMainState extends State<CustomerMain> {
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
+                color: AppColors.textPrimary,
               ),
             ),
           ],
@@ -119,7 +117,7 @@ class _CustomerMainState extends State<CustomerMain> {
       body: _pages[_index],
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColors.cardBackground,
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.1),
@@ -132,9 +130,9 @@ class _CustomerMainState extends State<CustomerMain> {
           currentIndex: _index,
           onTap: (i) => setState(() => _index = i),
           type: BottomNavigationBarType.fixed,
-          backgroundColor: Colors.white,
-          selectedItemColor: primaryBlue,
-          unselectedItemColor: Colors.grey,
+          backgroundColor: AppColors.cardBackground,
+          selectedItemColor: AppColors.primary,
+          unselectedItemColor: AppColors.textSecondary,
           selectedFontSize: 12,
           unselectedFontSize: 12,
           elevation: 0,
@@ -165,7 +163,7 @@ class _CustomerMainState extends State<CustomerMain> {
       floatingActionButton: _index == 0 
         ? FloatingActionButton(
             onPressed: _showBottomSheet,
-            backgroundColor: primaryBlue,
+            backgroundColor: AppColors.primary,
             elevation: 8,
             child: const Icon(
               Icons.add,

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:water_delivery_app/constants/app_colors.dart';
+import 'package:water_delivery_app/constants/app_text_styles.dart';
+import 'package:water_delivery_app/widgets/common_app_bar.dart';
 
-// Notification model class
 class NotificationItem {
   final String id;
   final String title;
@@ -49,8 +51,8 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
       description: 'Delivery #123 has been completed successfully for John Doe',
       time: '23d ago',
       icon: Icons.local_shipping,
-      iconColor: Color(0xFF10B981),
-      iconBgColor: Color(0xFFD1FAE5),
+      iconColor: AppColors.success,
+      iconBgColor: AppColors.successLight,
       type: NotificationType.deliveryCompleted,
       isRead: false,
     ),
@@ -60,8 +62,8 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
       description: 'Invoice #INV-2025-001 has been generated for Jane Smith',
       time: '23d ago',
       icon: Icons.description,
-      iconColor: Color(0xFF3B82F6),
-      iconBgColor: Color(0xFFDDEAFE),
+      iconColor: AppColors.primary,
+      iconBgColor: AppColors.primaryLight,
       type: NotificationType.invoiceGenerated,
       isRead: false,
     ),
@@ -71,8 +73,8 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
       description: 'Payment of \$125.00 received from Mike Johnson',
       time: '23d ago',
       icon: Icons.credit_card,
-      iconColor: Color(0xFF10B981),
-      iconBgColor: Color(0xFFD1FAE5),
+      iconColor: AppColors.success,
+      iconBgColor: AppColors.successLight,
       type: NotificationType.paymentReceived,
       isRead: true,
     ),
@@ -82,8 +84,8 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
       description: 'Sarah Wilson has been added as a new customer',
       time: '23d ago',
       icon: Icons.person_add,
-      iconColor: Color(0xFF3B82F6),
-      iconBgColor: Color(0xFFDDEAFE),
+      iconColor: AppColors.primary,
+      iconBgColor: AppColors.primaryLight,
       type: NotificationType.newCustomer,
       isRead: true,
     ),
@@ -93,8 +95,8 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
       description: 'Reminder: 3 deliveries scheduled for tomorrow',
       time: '23d ago',
       icon: Icons.notifications,
-      iconColor: Color(0xFFFF8C00),
-      iconBgColor: Color(0xFFFFF3CD),
+      iconColor: AppColors.warning,
+      iconBgColor: AppColors.warningLight,
       type: NotificationType.deliveryReminder,
       isRead: true,
     ),
@@ -104,8 +106,8 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
       description: 'App has been updated to version 2.1.0',
       time: '23d ago',
       icon: Icons.system_update,
-      iconColor: Color(0xFF3B82F6),
-      iconBgColor: Color(0xFFDDEAFE),
+      iconColor: AppColors.primary,
+      iconBgColor: AppColors.primaryLight,
       type: NotificationType.systemUpdate,
       isRead: true,
     ),
@@ -115,8 +117,8 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
       description: 'Delivery #124 has been cancelled by David Brown',
       time: '24d ago',
       icon: Icons.cancel,
-      iconColor: Color(0xFFDC2626),
-      iconBgColor: Color(0xFFFEE2E2),
+      iconColor: AppColors.danger,
+      iconBgColor: AppColors.dangerLight,
       type: NotificationType.deliveryCancelled,
       isRead: true,
     ),
@@ -126,8 +128,8 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
       description: 'Payment overdue for invoice #INV-2025-002',
       time: '24d ago',
       icon: Icons.warning,
-      iconColor: Color(0xFFDC2626),
-      iconBgColor: Color(0xFFFEE2E2),
+      iconColor: AppColors.danger,
+      iconBgColor: AppColors.dangerLight,
       type: NotificationType.paymentOverdue,
       isRead: true,
     ),
@@ -136,48 +138,33 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Column(
-          children: [
-            // Custom App Bar
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-              child: Row(
-                children: [
-                  const Text(
-                    'Notifications',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.black,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            
-            // Notifications List
-            Expanded(
-              child: notifications.isEmpty
-                  ? _buildEmptyState()
-                  : ListView.builder(
-                      padding: EdgeInsets.symmetric(horizontal: 16),
-                      itemCount: notifications.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: EdgeInsets.only(bottom: 12),
-                          child: NotificationCard(
-                            notification: notifications[index],
-                            onTap: () => _markAsRead(notifications[index].id),
-                            onDismiss: () => _dismissNotification(notifications[index].id),
-                          ),
-                        );
-                      },
-                    ),
-            ),
-          ],
+      backgroundColor: AppColors.background,
+      appBar: CommonAppBar(
+        title: 'Notifications',
+        showNotification: false,
+        showLogout: false,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: AppColors.textPrimary),
+          onPressed: () => Navigator.pop(context),
         ),
+      ),
+      body: SafeArea(
+        child: notifications.isEmpty
+            ? _buildEmptyState()
+            : ListView.builder(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                itemCount: notifications.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 12),
+                    child: NotificationCard(
+                      notification: notifications[index],
+                      onTap: () => _markAsRead(notifications[index].id),
+                      onDismiss: () => _dismissNotification(notifications[index].id),
+                    ),
+                  );
+                },
+              ),
       ),
     );
   }
@@ -188,32 +175,29 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            padding: EdgeInsets.all(24),
+            padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(
-              color: Colors.grey.shade100,
+              color: AppColors.textTertiary.withOpacity(0.1),
               borderRadius: BorderRadius.circular(16),
             ),
             child: Icon(
               Icons.notifications_none,
               size: 48,
-              color: Colors.grey.shade400,
+              color: AppColors.textTertiary,
             ),
           ),
-          SizedBox(height: 24),
+          const SizedBox(height: 24),
           Text(
             'No Notifications',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.w600,
-              color: Colors.grey.shade700,
+            style: AppTextStyles.sectionTitle.copyWith(
+              color: AppColors.textSecondary,
             ),
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           Text(
             'You\'re all caught up!',
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.grey.shade500,
+            style: AppTextStyles.cardTitle.copyWith(
+              color: AppColors.textSecondary,
             ),
           ),
         ],
@@ -264,19 +248,30 @@ class NotificationCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: notification.isRead ? Colors.white : Color(0xFFF0F8FF),
+          color: notification.isRead 
+              ? AppColors.cardBackground 
+              : AppColors.primaryLight.withOpacity(0.5),
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: notification.isRead ? Color(0xFFE5E7EB) : Color(0xFFBFDBFE),
+            color: notification.isRead 
+                ? AppColors.textTertiary 
+                : AppColors.primary.withOpacity(0.3),
             width: 1,
           ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
+            ),
+          ],
         ),
         child: Row(
           children: [
             Container(
-              padding: EdgeInsets.all(12),
+              padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: notification.iconBgColor,
                 borderRadius: BorderRadius.circular(12),
@@ -287,7 +282,7 @@ class NotificationCard extends StatelessWidget {
                 size: 24,
               ),
             ),
-            SizedBox(width: 16),
+            const SizedBox(width: 16),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -297,11 +292,7 @@ class NotificationCard extends StatelessWidget {
                       Expanded(
                         child: Text(
                           notification.title,
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black,
-                          ),
+                          style: AppTextStyles.cardTitle,
                         ),
                       ),
                       if (!notification.isRead)
@@ -309,35 +300,28 @@ class NotificationCard extends StatelessWidget {
                           width: 8,
                           height: 8,
                           decoration: BoxDecoration(
-                            color: Color(0xFF3B82F6),
+                            color: AppColors.primary,
                             borderRadius: BorderRadius.circular(4),
                           ),
                         ),
                     ],
                   ),
-                  SizedBox(height: 4),
+                  const SizedBox(height: 4),
                   Text(
                     notification.description,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey.shade600,
-                      height: 1.3,
-                    ),
+                    style: AppTextStyles.bodyText.copyWith(height: 1.3),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         notification.time,
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.grey.shade500,
-                        ),
+                        style: AppTextStyles.smallText,
                       ),
                       Icon(
                         Icons.more_vert,
-                        color: Colors.grey.shade400,
+                        color: AppColors.textTertiary,
                         size: 16,
                       ),
                     ],

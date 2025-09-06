@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:water_delivery_app/constants/app_colors.dart';
+import 'package:water_delivery_app/constants/app_text_styles.dart';
+
 
 class CustomerInvoices extends StatefulWidget {
-  const CustomerInvoices({super.key});
+  const CustomerInvoices({Key? key}) : super(key: key);
 
   @override
   State<CustomerInvoices> createState() => _CustomerInvoicesState();
@@ -13,36 +16,32 @@ class _CustomerInvoicesState extends State<CustomerInvoices> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F5F5),
+      backgroundColor: AppColors.background,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              color: Colors.white,
+              color: AppColors.cardBackground,
               padding: const EdgeInsets.all(16),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
+                  Text(
                     "Invoices",
-                    style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.w800,
-                      color: Colors.black,
-                    ),
+                    style: AppTextStyles.appBarTitle,
                   ),
                   Row(
                     children: [
                       Container(
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                          color: const Color(0xFFE3F2FD),
+                          color: AppColors.primaryLight,
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: const Icon(
                           Icons.file_download_outlined,
-                          color: Color.fromARGB(255, 0, 89, 255),
+                          color: AppColors.primary,
                           size: 20,
                         ),
                       ),
@@ -50,12 +49,12 @@ class _CustomerInvoicesState extends State<CustomerInvoices> {
                       Container(
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                          color: const Color(0xFFE3F2FD),
+                          color: AppColors.primaryLight,
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: const Icon(
                           Icons.filter_list,
-                          color: Color.fromARGB(255, 0, 89, 255),
+                          color: AppColors.primary,
                           size: 20,
                         ),
                       ),
@@ -66,7 +65,7 @@ class _CustomerInvoicesState extends State<CustomerInvoices> {
             ),
             Container(
               padding: const EdgeInsets.all(16),
-              color: Colors.white,
+              color: AppColors.cardBackground,
               child: Row(
                 children: [
                   _buildFilterTab('All', true),
@@ -88,19 +87,15 @@ class _CustomerInvoicesState extends State<CustomerInvoices> {
                     Container(
                       padding: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: AppColors.cardBackground,
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
+                          Text(
                             'Revenue Overview',
-                            style: TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.black,
-                            ),
+                            style: AppTextStyles.sectionTitle,
                           ),
                           const SizedBox(height: 24),
                           Row(
@@ -108,17 +103,14 @@ class _CustomerInvoicesState extends State<CustomerInvoices> {
                             children: [
                               Text(
                                 'Monthly Revenue Trend',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.grey[600],
-                                ),
+                                style: AppTextStyles.cardTitle,
                               ),
                               const Text(
                                 '\$740.00',
                                 style: TextStyle(
                                   fontSize: 28,
                                   fontWeight: FontWeight.w700,
-                                  color: Color.fromARGB(255, 0, 89, 255),
+                                  color: AppColors.primary,
                                 ),
                               ),
                             ],
@@ -133,13 +125,13 @@ class _CustomerInvoicesState extends State<CustomerInvoices> {
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
-                                    Text('\$300', style: TextStyle(fontSize: 11, color: Colors.grey[500])),
-                                    Text('\$250', style: TextStyle(fontSize: 11, color: Colors.grey[500])),
-                                    Text('\$200', style: TextStyle(fontSize: 11, color: Colors.grey[500])),
-                                    Text('\$150', style: TextStyle(fontSize: 11, color: Colors.grey[500])),
-                                    Text('\$100', style: TextStyle(fontSize: 11, color: Colors.grey[500])),
-                                    Text('\$50', style: TextStyle(fontSize: 11, color: Colors.grey[500])),
-                                    Text('\$0', style: TextStyle(fontSize: 11, color: Colors.grey[500])),
+                                    Text('\$300', style: AppTextStyles.smallText),
+                                    Text('\$250', style: AppTextStyles.smallText),
+                                    Text('\$200', style: AppTextStyles.smallText),
+                                    Text('\$150', style: AppTextStyles.smallText),
+                                    Text('\$100', style: AppTextStyles.smallText),
+                                    Text('\$50', style: AppTextStyles.smallText),
+                                    Text('\$0', style: AppTextStyles.smallText),
                                   ],
                                 ),
                                 const SizedBox(width: 12),
@@ -148,12 +140,12 @@ class _CustomerInvoicesState extends State<CustomerInvoices> {
                                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
-                                      _buildChartBar('Jan', 120, const Color.fromARGB(255, 0, 89, 255)),
-                                      _buildChartBar('Feb', 180, const Color(0xFF4CAF50)),
-                                      _buildChartBar('Mar', 90, const Color(0xFFFF9800)),
-                                      _buildChartBar('Apr', 150, const Color(0xFFF44336)),
-                                      _buildChartBar('May', 200, const Color(0xFF9C27B0)),
-                                      _buildChartBar('Jun', 250, const Color.fromARGB(255, 0, 89, 255)),
+                                      _buildChartBar('Jan', 120, AppColors.primary),
+                                      _buildChartBar('Feb', 180, AppColors.success),
+                                      _buildChartBar('Mar', 90, AppColors.warning),
+                                      _buildChartBar('Apr', 150, AppColors.danger),
+                                      _buildChartBar('May', 200, Colors.purple),
+                                      _buildChartBar('Jun', 250, AppColors.primary),
                                     ],
                                   ),
                                 ),
@@ -167,20 +159,13 @@ class _CustomerInvoicesState extends State<CustomerInvoices> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
+                        Text(
                           'Recent Invoices',
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.black,
-                          ),
+                          style: AppTextStyles.sectionTitle,
                         ),
                         Text(
                           '5 invoices',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey[600],
-                          ),
+                          style: AppTextStyles.bodyText,
                         ),
                       ],
                     ),
@@ -188,7 +173,7 @@ class _CustomerInvoicesState extends State<CustomerInvoices> {
                     Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: AppColors.cardBackground,
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Row(
@@ -197,12 +182,12 @@ class _CustomerInvoicesState extends State<CustomerInvoices> {
                             width: 50,
                             height: 50,
                             decoration: BoxDecoration(
-                              color: const Color(0xFFF5F5F5),
+                              color: AppColors.background,
                               borderRadius: BorderRadius.circular(8),
                             ),
-                            child: const Icon(
+                            child: Icon(
                               Icons.person,
-                              color: Colors.grey,
+                              color: AppColors.textSecondary,
                               size: 28,
                             ),
                           ),
@@ -211,32 +196,21 @@ class _CustomerInvoicesState extends State<CustomerInvoices> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text(
+                                Text(
                                   'John Doe',
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.black,
-                                  ),
+                                  style: AppTextStyles.sectionTitle,
                                 ),
                                 const SizedBox(height: 4),
                                 Text(
                                   'INV-001',
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    color: Colors.grey[600],
-                                  ),
+                                  style: AppTextStyles.bodyText,
                                 ),
                               ],
                             ),
                           ),
-                          const Text(
+                          Text(
                             '\$120.00',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.black,
-                            ),
+                            style: AppTextStyles.sectionTitle,
                           ),
                         ],
                       ),
@@ -253,7 +227,7 @@ class _CustomerInvoicesState extends State<CustomerInvoices> {
         width: 56,
         height: 56,
         decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 0, 89, 255),
+          color: AppColors.primary,
           borderRadius: BorderRadius.circular(16),
         ),
         child: FloatingActionButton(
@@ -274,16 +248,14 @@ class _CustomerInvoicesState extends State<CustomerInvoices> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       decoration: BoxDecoration(
-        color: isSelected ? const Color.fromARGB(255, 0, 89, 255) : Colors.transparent,
+        color: isSelected ? AppColors.primary : Colors.transparent,
         borderRadius: BorderRadius.circular(25),
-        border: isSelected ? null : Border.all(color: Colors.grey[300]!),
+        border: isSelected ? null : Border.all(color: AppColors.textTertiary),
       ),
       child: Text(
         title,
-        style: TextStyle(
-          color: isSelected ? Colors.white : Colors.grey[600],
-          fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-          fontSize: 15,
+        style: AppTextStyles.buttonText.copyWith(
+          color: isSelected ? Colors.white : AppColors.textSecondary,
         ),
       ),
     );
@@ -304,9 +276,7 @@ class _CustomerInvoicesState extends State<CustomerInvoices> {
         const SizedBox(height: 8),
         Text(
           month,
-          style: TextStyle(
-            fontSize: 12,
-            color: Colors.grey[600],
+          style: AppTextStyles.smallText.copyWith(
             fontWeight: FontWeight.w500,
           ),
         ),

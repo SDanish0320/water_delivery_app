@@ -1,35 +1,19 @@
 import 'package:flutter/material.dart';
-import '../../theme/app_theme.dart';
-import '../../utils/logout_helper.dart';
+import 'package:water_delivery_app/constants/app_colors.dart';
+import 'package:water_delivery_app/constants/app_text_styles.dart';
+import 'package:water_delivery_app/widgets/common_app_bar.dart';
+import 'package:water_delivery_app/widgets/status_chip.dart';
 
 class CustomerProfile extends StatelessWidget {
-  const CustomerProfile({super.key});
+  const CustomerProfile({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF8FAFC),
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        automaticallyImplyLeading: false,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Text(
-              'Profile',
-              style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.w700,
-                color: Colors.black,
-              ),
-            ),
-            GestureDetector(
-              onTap: () => LogoutHelper.logout(context),
-              child: const Icon(Icons.logout, size: 24, color: Colors.black87),
-            ),
-          ],
-        ),
+      backgroundColor: AppColors.background,
+      appBar: const CommonAppBar(
+        title: 'Profile',
+        showNotification: false,
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -37,12 +21,11 @@ class CustomerProfile extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-             
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColors.cardBackground,
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
@@ -59,13 +42,13 @@ class CustomerProfile extends StatelessWidget {
                       children: [
                         CircleAvatar(
                           radius: 60,
-                          backgroundColor: const Color(0xFFE0E7FF),
+                          backgroundColor: AppColors.primaryLight,
                           child: const Text(
                             'E',
                             style: TextStyle(
                               fontSize: 40,
                               fontWeight: FontWeight.w700,
-                              color: AppTheme.primaryColor,
+                              color: AppColors.primary,
                             ),
                           ),
                         ),
@@ -75,7 +58,7 @@ class CustomerProfile extends StatelessWidget {
                           child: Container(
                             padding: const EdgeInsets.all(8),
                             decoration: const BoxDecoration(
-                              color: AppTheme.primaryColor,
+                              color: AppColors.primary,
                               shape: BoxShape.circle,
                             ),
                             child: const Icon(
@@ -88,13 +71,9 @@ class CustomerProfile extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 24),
-                    const Text(
+                    Text(
                       'Emily Chen',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.black,
-                      ),
+                      style: AppTextStyles.sectionTitle.copyWith(fontSize: 24),
                     ),
                     const SizedBox(height: 16),
                     Container(
@@ -103,15 +82,13 @@ class CustomerProfile extends StatelessWidget {
                         vertical: 8,
                       ),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFE0E7FF),
+                        color: AppColors.primaryLight,
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      child: const Text(
+                      child: Text(
                         'Customer',
-                        style: TextStyle(
-                          color: AppTheme.primaryColor,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
+                        style: AppTextStyles.cardTitle.copyWith(
+                          color: AppColors.primary,
                         ),
                       ),
                     ),
@@ -122,44 +99,22 @@ class CustomerProfile extends StatelessWidget {
                         Icon(
                           Icons.business_outlined,
                           size: 16,
-                          color: Colors.grey.shade600,
+                          color: AppColors.textSecondary,
                         ),
                         const SizedBox(width: 6),
                         Text(
                           'AquaFlow Solutions',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.grey.shade600,
-                            fontWeight: FontWeight.w500,
+                          style: AppTextStyles.cardTitle.copyWith(
+                            color: AppColors.textSecondary,
                           ),
                         ),
                       ],
                     ),
                     const SizedBox(height: 20),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 20,
-                        vertical: 8,
-                      ),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFD1FAE5),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: const [
-                          Icon(Icons.circle, size: 8, color: Color(0xFF059669)),
-                          SizedBox(width: 8),
-                          Text(
-                            'Active',
-                            style: TextStyle(
-                              color: Color(0xFF059669),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
-                      ),
+                    const StatusChip(
+                      text: 'Active',
+                      textColor: AppColors.success,
+                      backgroundColor: AppColors.successLight,
                     ),
                   ],
                 ),
@@ -167,12 +122,11 @@ class CustomerProfile extends StatelessWidget {
 
               const SizedBox(height: 24),
 
-              
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColors.cardBackground,
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
@@ -185,20 +139,14 @@ class CustomerProfile extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
+                    Text(
                       'Contact Information',
-                      style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.black,
-                      ),
+                      style: AppTextStyles.sectionTitle,
                     ),
                     const SizedBox(height: 24),
 
                     _buildContactInfoRow(
                       icon: Icons.email_outlined,
-                      iconColor: AppTheme.primaryColor,
-                      iconBgColor: const Color(0xFFE0E7FF),
                       label: 'Email',
                       value: 'emily@email.com',
                     ),
@@ -206,8 +154,6 @@ class CustomerProfile extends StatelessWidget {
 
                     _buildContactInfoRow(
                       icon: Icons.phone_outlined,
-                      iconColor: AppTheme.primaryColor,
-                      iconBgColor: const Color(0xFFE0E7FF),
                       label: 'Phone',
                       value: '+1234567897',
                     ),
@@ -215,21 +161,20 @@ class CustomerProfile extends StatelessWidget {
 
                     _buildContactInfoRow(
                       icon: Icons.location_on_outlined,
-                      iconColor: AppTheme.primaryColor,
-                      iconBgColor: const Color(0xFFE0E7FF),
                       label: 'Address',
                       value: '123 Oak Street, Apartment 4B',
                     ),
                   ],
                 ),
               ),
+
               const SizedBox(height: 24),
-              
+
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColors.cardBackground,
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
@@ -242,13 +187,9 @@ class CustomerProfile extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
+                    Text(
                       'Order Summary',
-                      style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.black,
-                      ),
+                      style: AppTextStyles.sectionTitle,
                     ),
                     const SizedBox(height: 24),
                     Row(
@@ -259,12 +200,12 @@ class CustomerProfile extends StatelessWidget {
                               Container(
                                 padding: const EdgeInsets.all(16),
                                 decoration: BoxDecoration(
-                                  color: const Color(0xFFE0E7FF),
+                                  color: AppColors.primaryLight,
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                                 child: const Icon(
                                   Icons.shopping_bag,
-                                  color: AppTheme.primaryColor,
+                                  color: AppColors.primary,
                                   size: 24,
                                 ),
                               ),
@@ -274,26 +215,18 @@ class CustomerProfile extends StatelessWidget {
                                 style: TextStyle(
                                   fontSize: 28,
                                   fontWeight: FontWeight.w700,
-                                  color: AppTheme.primaryColor,
-                                ),
-                              ),
-                              const SizedBox(height: 4),
-                              const Text(
-                                'Orders',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.black,
+                                  color: AppColors.primary,
                                 ),
                               ),
                               const SizedBox(height: 4),
                               Text(
+                                'Orders',
+                                style: AppTextStyles.cardTitle,
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
                                 'This month',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.grey.shade600,
-                                  fontWeight: FontWeight.w500,
-                                ),
+                                style: AppTextStyles.bodyText,
                               ),
                             ],
                           ),
@@ -305,12 +238,12 @@ class CustomerProfile extends StatelessWidget {
                               Container(
                                 padding: const EdgeInsets.all(16),
                                 decoration: BoxDecoration(
-                                  color: const Color(0xFFE0E7FF),
+                                  color: AppColors.primaryLight,
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                                 child: const Icon(
                                   Icons.water_drop,
-                                  color: AppTheme.primaryColor,
+                                  color: AppColors.primary,
                                   size: 24,
                                 ),
                               ),
@@ -320,26 +253,18 @@ class CustomerProfile extends StatelessWidget {
                                 style: TextStyle(
                                   fontSize: 28,
                                   fontWeight: FontWeight.w700,
-                                  color: AppTheme.primaryColor,
-                                ),
-                              ),
-                              const SizedBox(height: 4),
-                              const Text(
-                                'Bottles',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.black,
+                                  color: AppColors.primary,
                                 ),
                               ),
                               const SizedBox(height: 4),
                               Text(
+                                'Bottles',
+                                style: AppTextStyles.cardTitle,
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
                                 'Total delivered',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.grey.shade600,
-                                  fontWeight: FontWeight.w500,
-                                ),
+                                style: AppTextStyles.bodyText,
                               ),
                             ],
                           ),
@@ -349,13 +274,14 @@ class CustomerProfile extends StatelessWidget {
                   ],
                 ),
               ),
+
               const SizedBox(height: 24),
-              
+
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColors.cardBackground,
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
@@ -368,54 +294,38 @@ class CustomerProfile extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
+                    Text(
                       'Settings & Actions',
-                      style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.black,
-                      ),
+                      style: AppTextStyles.sectionTitle,
                     ),
                     const SizedBox(height: 24),
-                    
-                    
+
                     _buildSettingsRow(
                       icon: Icons.person,
-                      iconColor: AppTheme.primaryColor,
-                      iconBgColor: const Color(0xFFE0E7FF),
                       title: 'Edit Profile',
                       subtitle: 'Update your profile details',
                       onTap: () {},
                     ),
                     const SizedBox(height: 20),
-                    
-                    
+
                     _buildSettingsRow(
                       icon: Icons.history,
-                      iconColor: AppTheme.primaryColor,
-                      iconBgColor: const Color(0xFFE0E7FF),
                       title: 'Order History',
                       subtitle: 'View your past orders',
                       onTap: () {},
                     ),
                     const SizedBox(height: 20),
-                    
-                    
+
                     _buildSettingsRow(
                       icon: Icons.notifications,
-                      iconColor: AppTheme.primaryColor,
-                      iconBgColor: const Color(0xFFE0E7FF),
                       title: 'Notifications',
                       subtitle: 'Manage notification preferences',
                       onTap: () {},
                     ),
                     const SizedBox(height: 20),
-                    
-                   
+
                     _buildSettingsRow(
                       icon: Icons.help,
-                      iconColor: AppTheme.primaryColor,
-                      iconBgColor: const Color(0xFFE0E7FF),
                       title: 'Help & Support',
                       subtitle: 'Get help and contact support',
                       onTap: () {},
@@ -423,13 +333,14 @@ class CustomerProfile extends StatelessWidget {
                   ],
                 ),
               ),
+
               const SizedBox(height: 24),
-              
+
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColors.cardBackground,
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
@@ -444,12 +355,12 @@ class CustomerProfile extends StatelessWidget {
                     Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFE0E7FF),
+                        color: AppColors.primaryLight,
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: const Icon(
                         Icons.water_drop,
-                        color: AppTheme.primaryColor,
+                        color: AppColors.primary,
                         size: 32,
                       ),
                     ),
@@ -459,26 +370,18 @@ class CustomerProfile extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.w700,
-                        color: AppTheme.primaryColor,
+                        color: AppColors.primary,
                       ),
                     ),
                     const SizedBox(height: 8),
-                    const Text(
+                    Text(
                       'v1.0.0',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                      ),
+                      style: AppTextStyles.cardTitle,
                     ),
                     const SizedBox(height: 4),
                     Text(
                       'Water Delivery Management System',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey.shade600,
-                        fontWeight: FontWeight.w500,
-                      ),
+                      style: AppTextStyles.bodyText,
                       textAlign: TextAlign.center,
                     ),
                   ],
@@ -493,8 +396,6 @@ class CustomerProfile extends StatelessWidget {
 
   Widget _buildSettingsRow({
     required IconData icon,
-    required Color iconColor,
-    required Color iconBgColor,
     required String title,
     required String subtitle,
     required VoidCallback onTap,
@@ -506,12 +407,12 @@ class CustomerProfile extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: iconBgColor,
+              color: AppColors.primaryLight,
               borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(
               icon,
-              color: iconColor,
+              color: AppColors.primary,
               size: 24,
             ),
           ),
@@ -522,27 +423,19 @@ class CustomerProfile extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black,
-                  ),
+                  style: AppTextStyles.cardTitle,
                 ),
                 const SizedBox(height: 4),
                 Text(
                   subtitle,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey.shade600,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  style: AppTextStyles.bodyText,
                 ),
               ],
             ),
           ),
           Icon(
             Icons.chevron_right,
-            color: Colors.grey.shade400,
+            color: AppColors.textTertiary,
             size: 24,
           ),
         ],
@@ -552,8 +445,6 @@ class CustomerProfile extends StatelessWidget {
 
   Widget _buildContactInfoRow({
     required IconData icon,
-    required Color iconColor,
-    required Color iconBgColor,
     required String label,
     required String value,
   }) {
@@ -562,10 +453,10 @@ class CustomerProfile extends StatelessWidget {
         Container(
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            color: iconBgColor,
+            color: AppColors.primaryLight,
             borderRadius: BorderRadius.circular(12),
           ),
-          child: Icon(icon, color: iconColor, size: 24),
+          child: Icon(icon, color: AppColors.primary, size: 24),
         ),
         const SizedBox(width: 16),
         Expanded(
@@ -574,20 +465,12 @@ class CustomerProfile extends StatelessWidget {
             children: [
               Text(
                 label,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey.shade600,
-                  fontWeight: FontWeight.w500,
-                ),
+                style: AppTextStyles.bodyText,
               ),
               const SizedBox(height: 4),
               Text(
                 value,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black,
-                ),
+                style: AppTextStyles.cardTitle,
               ),
             ],
           ),

@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:water_delivery_app/widgets/common_app_bar.dart';
+import 'package:water_delivery_app/widgets/stat_card.dart';
+import 'package:water_delivery_app/constants/app_colors.dart';
+import 'package:water_delivery_app/constants/app_text_styles.dart';
 
 class DeliveryHistoryScreen extends StatefulWidget {
   const DeliveryHistoryScreen({super.key});
@@ -13,8 +17,14 @@ class _DeliveryHistoryScreenState extends State<DeliveryHistoryScreen> {
   DateTime? startDate;
   DateTime? endDate;
 
-  final List<String> filterOptions = ['All', 'Completed', 'Pending', 'This Week', 'This Month'];
-  
+  final List<String> filterOptions = [
+    'All',
+    'Completed',
+    'Pending',
+    'This Week',
+    'This Month'
+  ];
+
   final List<Map<String, dynamic>> deliveryHistory = [
     {
       'name': 'Robert Taylor',
@@ -22,10 +32,9 @@ class _DeliveryHistoryScreenState extends State<DeliveryHistoryScreen> {
       'bottles': 3,
       'date': 'Aug 23',
       'time': '13:34',
-      'status': 'IN_PROGRESS',
-      'statusColor': Color(0xFFFF8C00),
-      'statusBgColor': Color(0xFFFFF3CD),
-      'statusText': 'IN PROGRESS',
+      'status': 'IN PROGRESS',
+      'statusColor': AppColors.warning,
+      'statusBgColor': AppColors.warningLight,
     },
     {
       'name': 'Emily Chen',
@@ -34,34 +43,26 @@ class _DeliveryHistoryScreenState extends State<DeliveryHistoryScreen> {
       'date': 'Aug 23',
       'time': '13:34',
       'status': 'DELIVERED',
-      'statusColor': Color(0xFF10B981),
-      'statusBgColor': Color(0xFFD1FAE5),
-      'statusText': 'DELIVERED',
+      'statusColor': AppColors.success,
+      'statusBgColor': AppColors.successLight,
     },
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF8FAFC),
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
+      backgroundColor: AppColors.background,
+      appBar: CommonAppBar(
+        title: 'Delivery History',
+        showNotification: false,
+        showLogout: false,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black87),
+          icon: const Icon(Icons.arrow_back, color: Colors.black87),
           onPressed: () => Navigator.pop(context),
-        ),
-        title: Text(
-          'Delivery History',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w700,
-            color: Colors.black,
-          ),
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.tune, color: Colors.black87),
+            icon: const Icon(Icons.tune, color: Colors.black87),
             onPressed: _showFilterDialog,
           ),
         ],
@@ -69,133 +70,67 @@ class _DeliveryHistoryScreenState extends State<DeliveryHistoryScreen> {
       body: Stack(
         children: [
           SingleChildScrollView(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Stats Cards
                 _buildStatsSection(),
-                SizedBox(height: 24),
-                
-                // Filter Chips
+                const SizedBox(height: 24),
                 _buildFilterChips(),
-                SizedBox(height: 20),
-                
-                // Delivery Items
+                const SizedBox(height: 20),
                 _buildDeliveryList(),
               ],
             ),
           ),
-          
-          // Filter Dialog Overlay
-          if (showFilterDialog)
-            _buildFilterDialog(),
+          if (showFilterDialog) _buildFilterDialog(),
         ],
       ),
     );
   }
 
   Widget _buildStatsSection() {
-    return Row(
+    return const Row(
       children: [
         Expanded(
-          child: _buildStatCard(
+          child: StatCard(
             icon: Icons.local_shipping,
-            iconColor: Color.fromARGB(255, 0, 89, 255),
-            iconBgColor: Color(0xFFE6F3FF),
+            iconColor: AppColors.primary,
+            iconBgColor: AppColors.primaryLight,
             value: '2',
             label: 'Total',
           ),
         ),
         SizedBox(width: 12),
         Expanded(
-          child: _buildStatCard(
+          child: StatCard(
             icon: Icons.check_circle,
-            iconColor: Color(0xFF10B981),
-            iconBgColor: Color(0xFFD1FAE5),
+            iconColor: AppColors.success,
+            iconBgColor: AppColors.successLight,
             value: '1',
             label: 'Completed',
           ),
         ),
         SizedBox(width: 12),
         Expanded(
-          child: _buildStatCard(
+          child: StatCard(
             icon: Icons.water_drop,
-            iconColor: Color.fromARGB(255, 0, 89, 255),
-            iconBgColor: Color(0xFFE6F3FF),
+            iconColor: AppColors.primary,
+            iconBgColor: AppColors.primaryLight,
             value: '5',
             label: 'Bottles',
           ),
         ),
         SizedBox(width: 12),
         Expanded(
-          child: _buildStatCard(
+          child: StatCard(
             icon: Icons.calendar_today,
-            iconColor: Color(0xFFFF8C00),
-            iconBgColor: Color(0xFFFFF3CD),
+            iconColor: AppColors.warning,
+            iconBgColor: AppColors.warningLight,
             value: '2',
             label: 'This Month',
           ),
         ),
       ],
-    );
-  }
-
-  Widget _buildStatCard({
-    required IconData icon,
-    required Color iconColor,
-    required Color iconBgColor,
-    required String value,
-    required String label,
-  }) {
-    return Container(
-      padding: EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.06),
-            blurRadius: 8,
-            offset: Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Column(
-        children: [
-          Container(
-            padding: EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: iconBgColor,
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Icon(
-              icon,
-              size: 20,
-              color: iconColor,
-            ),
-          ),
-          SizedBox(height: 8),
-          Text(
-            value,
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w700,
-              color: iconColor,
-            ),
-          ),
-          SizedBox(height: 2),
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 10,
-              color: Colors.grey.shade600,
-              fontWeight: FontWeight.w500,
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
     );
   }
 
@@ -206,7 +141,7 @@ class _DeliveryHistoryScreenState extends State<DeliveryHistoryScreen> {
         children: filterOptions.map((filter) {
           bool isSelected = selectedFilter == filter;
           return Padding(
-            padding: EdgeInsets.only(right: 8),
+            padding: const EdgeInsets.only(right: 8),
             child: GestureDetector(
               onTap: () {
                 setState(() {
@@ -214,12 +149,13 @@ class _DeliveryHistoryScreenState extends State<DeliveryHistoryScreen> {
                 });
               },
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                 decoration: BoxDecoration(
-                  color: isSelected ? Color(0xFFE6F3FF) : Colors.white,
+                  color: isSelected ? AppColors.primaryLight : AppColors.cardBackground,
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(
-                    color: isSelected ? Color.fromARGB(255, 0, 89, 255) : Colors.grey.shade300,
+                    color: isSelected ? AppColors.primary : Colors.grey.shade300,
                     width: 1,
                   ),
                 ),
@@ -227,18 +163,20 @@ class _DeliveryHistoryScreenState extends State<DeliveryHistoryScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     if (isSelected)
-                      Icon(
+                      const Icon(
                         Icons.check,
                         size: 16,
-                        color: Color.fromARGB(255, 0, 89, 255),
+                        color: AppColors.primary,
                       ),
-                    if (isSelected) SizedBox(width: 4),
+                    if (isSelected) const SizedBox(width: 4),
                     Text(
                       filter,
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
-                        color: isSelected ? Color.fromARGB(255, 0, 89, 255) : Colors.grey.shade700,
+                        color: isSelected
+                            ? AppColors.primary
+                            : Colors.grey.shade700,
                       ),
                     ),
                   ],
@@ -255,31 +193,30 @@ class _DeliveryHistoryScreenState extends State<DeliveryHistoryScreen> {
     return Column(
       children: deliveryHistory.map((delivery) {
         return Padding(
-          padding: EdgeInsets.only(bottom: 16),
-          child: _buildDeliveryItem(delivery),
+          padding: const EdgeInsets.only(bottom: 16),
+          child: _buildHistoryDeliveryItem(delivery),
         );
       }).toList(),
     );
   }
 
-  Widget _buildDeliveryItem(Map<String, dynamic> delivery) {
+  Widget _buildHistoryDeliveryItem(Map<String, dynamic> delivery) {
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.cardBackground,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.06),
             blurRadius: 10,
-            offset: Offset(0, 4),
+            offset: const Offset(0, 4),
           ),
         ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Header Row
           Row(
             children: [
               Expanded(
@@ -290,123 +227,112 @@ class _DeliveryHistoryScreenState extends State<DeliveryHistoryScreen> {
                       children: [
                         Text(
                           delivery['name'],
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black,
-                          ),
+                          style: AppTextStyles.cardTitle.copyWith(fontSize: 18),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         Container(
-                          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 4),
                           decoration: BoxDecoration(
                             color: delivery['statusBgColor'],
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Text(
-                            delivery['statusText'],
-                            style: TextStyle(
-                              fontSize: 10,
-                              fontWeight: FontWeight.w600,
-                              color: delivery['statusColor'],
-                            ),
+                            delivery['status'],
+                            style: AppTextStyles.statusText
+                                .copyWith(color: delivery['statusColor']),
                           ),
                         ),
                       ],
                     ),
-                    SizedBox(height: 4),
+                    const SizedBox(height: 4),
                     Text(
                       delivery['address'],
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey.shade600,
-                      ),
+                      style: AppTextStyles.bodyText,
                     ),
                   ],
                 ),
               ),
             ],
           ),
-          SizedBox(height: 16),
-          
-          // Bottom Info Row
+          const SizedBox(height: 16),
           Row(
             children: [
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                 decoration: BoxDecoration(
-                  color: Color(0xFFE6F3FF),
+                  color: AppColors.primaryLight,
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.water_drop,
                       size: 16,
-                      color: Color.fromARGB(255, 0, 89, 255),
+                      color: AppColors.primary,
                     ),
-                    SizedBox(width: 4),
+                    const SizedBox(width: 4),
                     Text(
                       '${delivery['bottles']} bottles',
-                      style: TextStyle(
-                        fontSize: 12,
+                      style: AppTextStyles.smallText.copyWith(
                         fontWeight: FontWeight.w600,
-                        color: Color.fromARGB(255, 0, 89, 255),
+                        color: AppColors.primary,
                       ),
                     ),
                   ],
                 ),
               ),
-              SizedBox(width: 12),
+              const SizedBox(width: 12),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                 decoration: BoxDecoration(
-                  color: Color(0xFFE6F3FF),
+                  color: AppColors.primaryLight,
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.calendar_today,
                       size: 16,
-                      color: Color.fromARGB(255, 0, 89, 255),
+                      color: AppColors.primary,
                     ),
-                    SizedBox(width: 4),
+                    const SizedBox(width: 4),
                     Text(
                       delivery['date'],
-                      style: TextStyle(
-                        fontSize: 12,
+                      style: AppTextStyles.smallText.copyWith(
                         fontWeight: FontWeight.w600,
-                        color: Color.fromARGB(255, 0, 89, 255),
+                        color: AppColors.primary,
                       ),
                     ),
                   ],
                 ),
               ),
-              SizedBox(width: 12),
+              const SizedBox(width: 12),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                 decoration: BoxDecoration(
-                  color: Color(0xFFFFF3CD),
+                  color: AppColors.warningLight,
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.access_time,
                       size: 16,
-                      color: Color(0xFFFF8C00),
+                      color: AppColors.warning,
                     ),
-                    SizedBox(width: 4),
+                    const SizedBox(width: 4),
                     Text(
                       delivery['time'],
-                      style: TextStyle(
-                        fontSize: 12,
+                      style: AppTextStyles.smallText.copyWith(
                         fontWeight: FontWeight.w600,
-                        color: Color(0xFFFF8C00),
+                        color: AppColors.warning,
                       ),
                     ),
                   ],
@@ -425,43 +351,37 @@ class _DeliveryHistoryScreenState extends State<DeliveryHistoryScreen> {
         color: Colors.black.withOpacity(0.5),
         child: Center(
           child: Container(
-            margin: EdgeInsets.all(32),
-            padding: EdgeInsets.all(24),
+            margin: const EdgeInsets.all(32),
+            padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: AppColors.cardBackground,
               borderRadius: BorderRadius.circular(16),
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   'Filter Deliveries',
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w700,
-                    color: Colors.black,
+                    color: AppColors.textPrimary,
                   ),
                 ),
-                SizedBox(height: 24),
-                
-                // Start Date
+                const SizedBox(height: 24),
                 _buildDateSelector('Start Date', startDate, (date) {
                   setState(() {
                     startDate = date;
                   });
                 }),
-                SizedBox(height: 16),
-                
-                // End Date
+                const SizedBox(height: 16),
                 _buildDateSelector('End Date', endDate, (date) {
                   setState(() {
                     endDate = date;
                   });
                 }),
-                SizedBox(height: 32),
-                
-                // Action Buttons
+                const SizedBox(height: 32),
                 Row(
                   children: [
                     TextButton(
@@ -473,14 +393,12 @@ class _DeliveryHistoryScreenState extends State<DeliveryHistoryScreen> {
                       },
                       child: Text(
                         'Clear',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.grey.shade600,
+                        style: AppTextStyles.cardTitle.copyWith(
+                          color: AppColors.textSecondary,
                         ),
                       ),
                     ),
-                    SizedBox(width: 16),
+                    const SizedBox(width: 16),
                     TextButton(
                       onPressed: () {
                         setState(() {
@@ -489,34 +407,30 @@ class _DeliveryHistoryScreenState extends State<DeliveryHistoryScreen> {
                       },
                       child: Text(
                         'Cancel',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.grey.shade600,
+                        style: AppTextStyles.cardTitle.copyWith(
+                          color: AppColors.textSecondary,
                         ),
                       ),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     ElevatedButton(
                       onPressed: () {
                         setState(() {
                           showFilterDialog = false;
                         });
-                        // Apply filter logic here
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromARGB(255, 0, 89, 255),
+                        backgroundColor: AppColors.primary,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 24, vertical: 12),
                       ),
                       child: Text(
                         'Apply',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
+                        style: AppTextStyles.cardTitle.copyWith(
+                          color: AppColors.cardBackground,
                         ),
                       ),
                     ),
@@ -530,19 +444,16 @@ class _DeliveryHistoryScreenState extends State<DeliveryHistoryScreen> {
     );
   }
 
-  Widget _buildDateSelector(String label, DateTime? selectedDate, Function(DateTime?) onDateSelected) {
+  Widget _buildDateSelector(
+      String label, DateTime? selectedDate, Function(DateTime?) onDateSelected) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           label,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-            color: Colors.black,
-          ),
+          style: AppTextStyles.cardTitle,
         ),
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         GestureDetector(
           onTap: () async {
             final DateTime? picked = await showDatePicker(
@@ -556,7 +467,7 @@ class _DeliveryHistoryScreenState extends State<DeliveryHistoryScreen> {
             }
           },
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             decoration: BoxDecoration(
               color: Colors.grey.shade50,
               borderRadius: BorderRadius.circular(8),
@@ -565,15 +476,17 @@ class _DeliveryHistoryScreenState extends State<DeliveryHistoryScreen> {
             child: Row(
               children: [
                 Text(
-                  selectedDate != null 
-                    ? '${selectedDate.day}/${selectedDate.month}/${selectedDate.year}'
-                    : 'Not selected',
+                  selectedDate != null
+                      ? '${selectedDate.day}/${selectedDate.month}/${selectedDate.year}'
+                      : 'Not selected',
                   style: TextStyle(
                     fontSize: 14,
-                    color: selectedDate != null ? Colors.black : Colors.grey.shade500,
+                    color: selectedDate != null
+                        ? AppColors.textPrimary
+                        : AppColors.textTertiary,
                   ),
                 ),
-                Spacer(),
+                const Spacer(),
                 Icon(
                   Icons.calendar_today,
                   size: 20,

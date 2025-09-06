@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:water_delivery_app/constants/app_colors.dart';
+import 'package:water_delivery_app/constants/app_text_styles.dart';
+import 'package:water_delivery_app/widgets/common_app_bar.dart';
+import 'package:water_delivery_app/widgets/auth/auth_header_card.dart';
+import 'package:water_delivery_app/widgets/auth/auth_input_field.dart';
 
 class AddCustomerScreen extends StatefulWidget {
   const AddCustomerScreen({super.key});
@@ -12,30 +17,20 @@ class _AddCustomerScreenState extends State<AddCustomerScreen> {
   final emailController = TextEditingController();
   final phoneController = TextEditingController();
   final addressController = TextEditingController();
+  final notesController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
+      backgroundColor: AppColors.background,
+      appBar: CommonAppBar(
+        title: 'Add Customer',
+        showNotification: false,
+        showLogout: false,
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
-          icon: const Icon(
-            Icons.arrow_back,
-            color: Colors.black,
-          ),
+          icon: const Icon(Icons.arrow_back, color: AppColors.textPrimary),
         ),
-        title: const Text(
-          'Add Customer',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
-          ),
-        ),
-        centerTitle: true,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -43,621 +38,319 @@ class _AddCustomerScreenState extends State<AddCustomerScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Info Card
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF0F8FF),
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: const Color(0xFFE3F2FD)),
-                ),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 50,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFE3F2FD),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: const Icon(
-                        Icons.person_add,
-                        color: Color.fromARGB(255, 0, 89, 255),
-                        size: 24,
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    const Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Add New Customer',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black,
-                            ),
-                          ),
-                          SizedBox(height: 4),
-                          Text(
-                            'Create a new customer account for\nyour company',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+              const AuthHeaderCard(
+                icon: Icons.person_add,
+                title: 'Add New Customer',
+                subtitle: 'Create a new customer account for your company',
               ),
-
               const SizedBox(height: 24),
-
-              // Customer Information Section
-              Row(
-                children: [
-                  const Icon(
-                    Icons.person,
-                    color: Color.fromARGB(255, 0, 89, 255),
-                    size: 20,
-                  ),
-                  const SizedBox(width: 8),
-                  const Text(
-                    'Customer Information',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: Color.fromARGB(255, 0, 89, 255),
-                    ),
-                  ),
-                ],
-              ),
-
+              _buildSectionTitle('Customer Information', Icons.person),
               const SizedBox(height: 16),
-
-              // Full Name
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Full Name',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFF8F9FA),
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: const Color(0xFFE9ECEF)),
-                    ),
-                    child: TextField(
-                      controller: nameController,
-                      decoration: const InputDecoration(
-                        hintText: 'Enter customer full name',
-                        hintStyle: TextStyle(color: Colors.grey),
-                        prefixIcon: Icon(
-                          Icons.person_outline,
-                          color: Colors.grey,
-                        ),
-                        border: InputBorder.none,
-                        contentPadding: EdgeInsets.all(16),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-
-              const SizedBox(height: 20),
-
-              // Email Address
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Email Address',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFF8F9FA),
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: const Color(0xFFE9ECEF)),
-                    ),
-                    child: TextField(
-                      controller: emailController,
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: const InputDecoration(
-                        hintText: 'Enter email address',
-                        hintStyle: TextStyle(color: Colors.grey),
-                        prefixIcon: Icon(
-                          Icons.mail_outline,
-                          color: Colors.grey,
-                        ),
-                        border: InputBorder.none,
-                        contentPadding: EdgeInsets.all(16),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-
-              const SizedBox(height: 20),
-
-              // Phone Number
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Phone Number',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFF8F9FA),
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: const Color(0xFFE9ECEF)),
-                    ),
-                    child: TextField(
-                      controller: phoneController,
-                      keyboardType: TextInputType.phone,
-                      decoration: const InputDecoration(
-                        hintText: 'Enter phone number',
-                        hintStyle: TextStyle(color: Colors.grey),
-                        prefixIcon: Icon(
-                          Icons.phone_outlined,
-                          color: Colors.grey,
-                        ),
-                        border: InputBorder.none,
-                        contentPadding: EdgeInsets.all(16),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-
-              const SizedBox(height: 20),
-
-              // Address
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Address',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFF8F9FA),
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: const Color(0xFFE9ECEF)),
-                    ),
-                    child: TextField(
-                      controller: addressController,
-                      maxLines: 3,
-                      decoration: const InputDecoration(
-                        hintText: 'Enter customer address',
-                        hintStyle: TextStyle(color: Colors.grey),
-                        prefixIcon: Padding(
-                          padding: EdgeInsets.only(bottom: 40),
-                          child: Icon(
-                            Icons.location_on_outlined,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        border: InputBorder.none,
-                        contentPadding: EdgeInsets.all(16),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-
+              _buildCustomerInfoForm(),
               const SizedBox(height: 24),
-
-              // Delivery Settings Section
-              const Text(
-                'Delivery Settings',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black,
-                ),
-              ),
-
+              _buildSectionTitle('Delivery Settings', Icons.settings),
               const SizedBox(height: 16),
-
-              // Monthly Plan and Price Row
-              Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Monthly Plan (bottles)',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFF8F9FA),
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: const Color(0xFFE9ECEF)),
-                          ),
-                          child: Row(
-                            children: [
-                              const Icon(
-                                Icons.calendar_today,
-                                color: Colors.grey,
-                                size: 20,
-                              ),
-                              const SizedBox(width: 12),
-                              const Text(
-                                '20',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Price per Bottle (\$)',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFF8F9FA),
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: const Color(0xFFE9ECEF)),
-                          ),
-                          child: Row(
-                            children: [
-                              const Icon(
-                                Icons.attach_money,
-                                color: Colors.grey,
-                                size: 20,
-                              ),
-                              const SizedBox(width: 12),
-                              const Text(
-                                '25.00',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-
+              _buildDeliverySettings(),
               const SizedBox(height: 20),
-
-              // Notes Section
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Notes (Optional)',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Container(
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFF8F9FA),
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: const Color(0xFFE9ECEF)),
-                    ),
-                    child: Row(
-                      children: [
-                        const Icon(
-                          Icons.folder_outlined,
-                          color: Colors.grey,
-                          size: 20,
-                        ),
-                        const SizedBox(width: 12),
-                        const Expanded(
-                          child: Text(
-                            'Enter any additional notes',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-
+              _buildNotesField(),
               const SizedBox(height: 24),
-
-              // Company Information Section
-              Row(
-                children: [
-                  const Icon(
-                    Icons.business,
-                    color: Color.fromARGB(255, 0, 89, 255),
-                    size: 20,
-                  ),
-                  const SizedBox(width: 8),
-                  const Text(
-                    'Company Information',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: Color.fromARGB(255, 0, 89, 255),
-                    ),
-                  ),
-                ],
-              ),
-
+              _buildSectionTitle('Company Information', Icons.business),
               const SizedBox(height: 16),
-
-              // Company Information Details
-              Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        'Company',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey,
-                        ),
-                      ),
-                      const Text(
-                        'AquaFlow Solutions',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 12),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        'Role',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey,
-                        ),
-                      ),
-                      const Text(
-                        'Customer',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 12),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        'Status',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey,
-                        ),
-                      ),
-                      const Text(
-                        'Active',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-
+              _buildCompanyInfo(),
               const SizedBox(height: 20),
-
-              // Customer Benefits Info
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF0F8FF),
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: const Color(0xFFE3F2FD)),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.info_outline,
-                          color: Color.fromARGB(255, 0, 89, 255),
-                          size: 20,
-                        ),
-                        const SizedBox(width: 8),
-                        const Text(
-                          'Customer Account Details',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 12),
-                    const Text(
-                      '• Customer will receive login credentials via email',
-                      style: TextStyle(fontSize: 14, color: Colors.grey),
-                    ),
-                    const SizedBox(height: 4),
-                    const Text(
-                      '• They can track deliveries and manage their account',
-                      style: TextStyle(fontSize: 14, color: Colors.grey),
-                    ),
-                    const SizedBox(height: 4),
-                    const Text(
-                      '• Monthly billing will be generated automatically',
-                      style: TextStyle(fontSize: 14, color: Colors.grey),
-                    ),
-                  ],
-                ),
-              ),
-
+              _buildInfoCard(),
               const SizedBox(height: 40),
             ],
           ),
         ),
       ),
-      bottomNavigationBar: Container(
-        padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.1),
-              spreadRadius: 1,
-              blurRadius: 10,
-              offset: const Offset(0, -2),
-            ),
-          ],
+      bottomNavigationBar: _buildBottomBar(),
+    );
+  }
+
+  Widget _buildSectionTitle(String title, IconData icon) {
+    return Row(
+      children: [
+        Icon(icon, color: AppColors.primary, size: 20),
+        const SizedBox(width: 8),
+        Text(
+          title,
+          style: AppTextStyles.cardTitle.copyWith(color: AppColors.primary),
         ),
-        child: Row(
+      ],
+    );
+  }
+
+  Widget _buildCustomerInfoForm() {
+    return Column(
+      children: [
+        AuthInputField(
+          label: 'Full Name',
+          hintText: 'Enter customer full name',
+          prefixIcon: Icons.person_outline,
+          controller: nameController,
+        ),
+        const SizedBox(height: 20),
+        AuthInputField(
+          label: 'Email Address',
+          hintText: 'Enter email address',
+          prefixIcon: Icons.mail_outline,
+          controller: emailController,
+          keyboardType: TextInputType.emailAddress,
+        ),
+        const SizedBox(height: 20),
+        AuthInputField(
+          label: 'Phone Number',
+          hintText: 'Enter phone number',
+          prefixIcon: Icons.phone_outlined,
+          controller: phoneController,
+          keyboardType: TextInputType.phone,
+        ),
+        const SizedBox(height: 20),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(
-              child: GestureDetector(
-                onTap: () => Navigator.pop(context),
-                child: Container(
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(25),
-                    border: Border.all(
-                      color: const Color(0xFFE9ECEF),
-                    ),
-                  ),
-                  child: const Center(
-                    child: Text(
-                      'Cancel',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ),
+            Text('Address', style: AppTextStyles.cardTitle),
+            const SizedBox(height: 8),
+            TextField(
+              controller: addressController,
+              maxLines: 3,
+              decoration: InputDecoration(
+                hintText: 'Enter customer address',
+                hintStyle: AppTextStyles.bodyText,
+                prefixIcon: const Padding(
+                  padding: EdgeInsets.only(bottom: 40),
+                  child: Icon(Icons.location_on_outlined, color: AppColors.textSecondary),
                 ),
-              ),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: GestureDetector(
-                onTap: () {
-                  if (nameController.text.isNotEmpty &&
-                      emailController.text.isNotEmpty &&
-                      phoneController.text.isNotEmpty &&
-                      addressController.text.isNotEmpty) {
-                    Navigator.pop(context);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          '${nameController.text} added successfully',
-                        ),
-                        backgroundColor: Colors.green,
-                      ),
-                    );
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Please fill all fields'),
-                        backgroundColor: Colors.red,
-                      ),
-                    );
-                  }
-                },
-                child: Container(
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 0, 89, 255),
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                  child: const Center(
-                    child: Text(
-                      'Create Customer',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide(color: AppColors.textTertiary),
                 ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide(color: AppColors.textTertiary),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide(color: AppColors.primary),
+                ),
+                contentPadding: const EdgeInsets.all(16),
               ),
             ),
           ],
         ),
+      ],
+    );
+  }
+
+  Widget _buildDeliverySettings() {
+    return Row(
+      children: [
+        Expanded(child: _buildPlanCard('20', 'Monthly Plan (bottles)', Icons.calendar_today)),
+        const SizedBox(width: 16),
+        Expanded(child: _buildPlanCard('\$25.00', 'Price per Bottle', Icons.attach_money)),
+      ],
+    );
+  }
+
+  Widget _buildPlanCard(String value, String label, IconData icon) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(label, style: AppTextStyles.bodyText.copyWith(fontWeight: FontWeight.w500)),
+        const SizedBox(height: 8),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+          decoration: BoxDecoration(
+            color: AppColors.background,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: AppColors.textTertiary),
+          ),
+          child: Row(
+            children: [
+              Icon(icon, color: AppColors.textSecondary, size: 20),
+              const SizedBox(width: 12),
+              Text(value, style: AppTextStyles.cardTitle),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildNotesField() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Notes (Optional)', style: AppTextStyles.bodyText.copyWith(fontWeight: FontWeight.w500)),
+        const SizedBox(height: 8),
+        Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: AppColors.background,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: AppColors.textTertiary),
+          ),
+          child: Row(
+            children: [
+              Icon(Icons.folder_outlined, color: AppColors.textSecondary, size: 20),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  'Enter any additional notes',
+                  style: AppTextStyles.cardTitle.copyWith(color: AppColors.textSecondary),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildCompanyInfo() {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppColors.cardBackground,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppColors.textTertiary),
+      ),
+      child: Column(
+        children: [
+          _buildInfoRow('Company', 'AquaFlow Solutions'),
+          const SizedBox(height: 12),
+          _buildInfoRow('Role', 'Customer'),
+          const SizedBox(height: 12),
+          _buildInfoRow('Status', 'Active'),
+        ],
       ),
     );
+  }
+
+  Widget _buildInfoRow(String label, String value) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(label, style: AppTextStyles.bodyText),
+        Text(
+          value,
+          style: AppTextStyles.bodyText.copyWith(
+            fontWeight: FontWeight.w600,
+            color: AppColors.textPrimary,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildInfoCard() {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppColors.primaryLight,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppColors.primary.withOpacity(0.2)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(Icons.info_outline, color: AppColors.primary, size: 20),
+              const SizedBox(width: 8),
+              Text(
+                'Customer Account Details',
+                style: AppTextStyles.cardTitle,
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          _buildInfoPoint('Customer will receive login credentials via email'),
+          _buildInfoPoint('They can track deliveries and manage their account'),
+          _buildInfoPoint('Monthly billing will be generated automatically'),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildInfoPoint(String text) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 4),
+      child: Text('• $text', style: AppTextStyles.bodyText),
+    );
+  }
+
+  Widget _buildBottomBar() {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: AppColors.cardBackground,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            spreadRadius: 1,
+            blurRadius: 10,
+            offset: const Offset(0, -2),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: OutlinedButton(
+              onPressed: () => Navigator.pop(context),
+              style: OutlinedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                side: BorderSide(color: AppColors.textTertiary),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+              ),
+              child: Text(
+                'Cancel',
+                style: AppTextStyles.buttonText.copyWith(color: AppColors.textSecondary),
+              ),
+            ),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: ElevatedButton(
+              onPressed: _handleCreateCustomer,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.primary,
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+              ),
+              child: Text(
+                'Create Customer',
+                style: AppTextStyles.buttonText.copyWith(color: Colors.white),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _handleCreateCustomer() {
+    if (nameController.text.isNotEmpty &&
+        emailController.text.isNotEmpty &&
+        phoneController.text.isNotEmpty &&
+        addressController.text.isNotEmpty) {
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('${nameController.text} added successfully'),
+          backgroundColor: AppColors.success,
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text('Please fill all fields'),
+          backgroundColor: AppColors.danger,
+        ),
+      );
+    }
   }
 
   @override
@@ -666,6 +359,7 @@ class _AddCustomerScreenState extends State<AddCustomerScreen> {
     emailController.dispose();
     phoneController.dispose();
     addressController.dispose();
+    notesController.dispose();
     super.dispose();
   }
 }

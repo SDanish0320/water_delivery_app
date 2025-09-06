@@ -1,10 +1,18 @@
+// lib/screens/company_admin/company_admin_main.dart
 import 'package:flutter/material.dart';
+import 'package:water_delivery_app/constants/app_colors.dart';
+import 'package:water_delivery_app/widgets/common_app_bar.dart';
+import 'package:water_delivery_app/widgets/company_admin/company_overview_card.dart';
+import 'package:water_delivery_app/widgets/stat_card.dart';
+import 'package:water_delivery_app/widgets/quick_action_card.dart';
+import 'package:water_delivery_app/widgets/company_admin/welcome_card.dart';
+import 'package:water_delivery_app/widgets/company_admin/pricing_control_card.dart';
+import 'package:water_delivery_app/widgets/company_admin/customer_pricing_card.dart';
 import 'package:water_delivery_app/screens/company_admin/company_admin_customer_screen.dart';
 import 'package:water_delivery_app/screens/company_admin/company_admin_invoices_screen.dart';
 import 'package:water_delivery_app/screens/company_admin/company_admin_profile.dart';
 import 'package:water_delivery_app/screens/company_admin/delivery_boys_screen.dart';
-import 'package:water_delivery_app/utils/logout_helper.dart';
-import 'package:water_delivery_app/utils/notification_screen.dart';
+import 'package:water_delivery_app/constants/app_text_styles.dart';
 
 class CompanyAdminMain extends StatefulWidget {
   const CompanyAdminMain({super.key});
@@ -26,71 +34,52 @@ class _CompanyAdminMainState extends State<CompanyAdminMain> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: _selectedIndex == 0 ? _getDashboardAppBar() : null,
+      backgroundColor: AppColors.background,
+      appBar: _selectedIndex == 0 
+          ? const CommonAppBar(
+              title: 'Company Dashboard',
+              showNotification: true,
+              showLogout: true,
+            )
+          : null,
       body: _screens[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: (index) => setState(() => _selectedIndex = index),
         type: BottomNavigationBarType.fixed,
-        selectedItemColor: Color.fromARGB(255, 0, 89, 255),
-        unselectedItemColor: Colors.grey,
+        selectedItemColor: AppColors.primary,
+        unselectedItemColor: AppColors.textTertiary,
         showUnselectedLabels: true,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.dashboard),
             label: 'Dashboard',
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.people), label: 'Customers'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.people),
+            label: 'Customers',
+          ),
           BottomNavigationBarItem(
             icon: Icon(Icons.receipt_long),
             label: 'Invoices',
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profile',
+          ),
         ],
       ),
       floatingActionButton: _selectedIndex == 0
           ? FloatingActionButton(
-              backgroundColor: Color.fromARGB(255, 0, 89, 255),
+              backgroundColor: AppColors.primary,
               onPressed: () {},
               child: const Icon(Icons.add, color: Colors.white),
             )
           : null,
     );
   }
-
-  AppBar _getDashboardAppBar() {
-    return AppBar(
-      backgroundColor: Colors.white,
-      elevation: 0,
-      title: const Text(
-        'Company Dashboard',
-        style: TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.w700,
-          color: Colors.black,
-        ),
-      ),
-      actions: [
-        IconButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => NotificationsScreen()),
-            );
-          },
-          icon: const Icon(Icons.notifications_none, color: Colors.black),
-        ),
-        IconButton(
-          onPressed: () => LogoutHelper.logout(context),
-          icon: const Icon(Icons.logout, color: Colors.black),
-        ),
-      ],
-    );
-  }
 }
 
-// Dashboard Screen
 class _DashboardScreen extends StatelessWidget {
   const _DashboardScreen();
 
@@ -101,163 +90,86 @@ class _DashboardScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Welcome Card
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.1),
-                  spreadRadius: 1,
-                  blurRadius: 10,
-                  offset: const Offset(0, 2),
-                ),
-              ],
-            ),
-            child: Row(
-              children: [
-                Container(
-                  width: 60,
-                  height: 60,
-                  decoration: BoxDecoration(
-                    color: Color(0xFFE3F2FD),
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: const Icon(
-                    Icons.business,
-                    color: Color.fromARGB(255, 0, 89, 255),
-                    size: 30,
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Welcome, John Smith',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      const Text(
-                        'Company Admin - AquaFlow Solutions',
-                        style: TextStyle(fontSize: 14, color: Colors.grey),
-                      ),
-                      const SizedBox(height: 8),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 4,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Color(0xFFE3F2FD),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: const Text(
-                          'ADMIN ACCESS',
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                            color: Color.fromARGB(255, 0, 89, 255),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+          const WelcomeCard(
+            adminName: 'John Smith',
+            companyName: 'AquaFlow Solutions',
           ),
-
           const SizedBox(height: 24),
-
-          // Company Overview Section
-          const Text(
+          Text(
             'Company Overview',
-            style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            ),
+            style: AppTextStyles.sectionTitle.copyWith(fontSize: 22),
           ),
-
           const SizedBox(height: 16),
-
-          // Overview Cards Grid
-          GridView.count(
-            crossAxisCount: 2,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            crossAxisSpacing: 12,
-            mainAxisSpacing: 12,
-            childAspectRatio: 1.3,
+          Column(
             children: [
-              _buildOverviewCard(
-                icon: Icons.people,
-                iconColor: Color.fromARGB(255, 0, 89, 255),
-                title: '3',
-                subtitle: 'Customers',
-                backgroundColor: Color(0xFFE3F2FD),
+              Row(
+                children: [
+                  Expanded(
+                    child: CompanyOverviewCard(
+                      icon: Icons.people,
+                      iconColor: AppColors.primary,
+                      iconBgColor: AppColors.primaryLight,
+                      value: '3',
+                      label: 'Customers',
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: CompanyOverviewCard(
+                      icon: Icons.delivery_dining,
+                      iconColor: AppColors.success,
+                      iconBgColor: AppColors.successLight,
+                      value: '2',
+                      label: 'Delivery Boys',
+                    ),
+                  ),
+                ],
               ),
-              _buildOverviewCard(
-                icon: Icons.delivery_dining,
-                iconColor: Colors.green,
-                title: '2',
-                subtitle: 'Delivery Boys',
-                backgroundColor: Colors.green[50]!,
-              ),
-              _buildOverviewCard(
-                icon: Icons.attach_money,
-                iconColor: Colors.orange,
-                title: '\$2K',
-                subtitle: 'Revenue',
-                backgroundColor: Colors.orange[50]!,
-              ),
-              _buildOverviewCard(
-                icon: Icons.receipt_long,
-                iconColor: Color.fromARGB(255, 0, 89, 255),
-                title: '1/2',
-                subtitle: 'Paid Invoices',
-                backgroundColor: Color(0xFFE3F2FD),
+              const SizedBox(height: 12),
+              Row(
+                children: [
+                  Expanded(
+                    child: CompanyOverviewCard(
+                      icon: Icons.attach_money,
+                      iconColor: AppColors.warning,
+                      iconBgColor: AppColors.warningLight,
+                      value: '\$2K',
+                      label: 'Revenue',
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: CompanyOverviewCard(
+                      icon: Icons.receipt_long,
+                      iconColor: AppColors.primary,
+                      iconBgColor: AppColors.primaryLight,
+                      value: '1/2',
+                      label: 'Paid Invoices',
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
-
           const SizedBox(height: 24),
-
-          // Management Actions Section
-          const Text(
+          Text(
             'Management Actions',
-            style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            ),
+            style: AppTextStyles.sectionTitle.copyWith(fontSize: 22),
           ),
-
           const SizedBox(height: 16),
-
-          // Management Action Cards
           GridView.count(
             crossAxisCount: 2,
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             crossAxisSpacing: 12,
             mainAxisSpacing: 12,
-            childAspectRatio: 2.2,
+            childAspectRatio: 1.8,
             children: [
-              _buildActionCard(
+              QuickActionCard(
                 icon: Icons.people,
-                iconColor: Color.fromARGB(255, 0, 89, 255),
+                iconColor: AppColors.primary,
+                iconBgColor: AppColors.primaryLight,
                 title: 'Manage Customers',
-                backgroundColor: Color(0xFFE3F2FD),
                 onTap: () {
                   Navigator.push(
                     context,
@@ -267,11 +179,11 @@ class _DashboardScreen extends StatelessWidget {
                   );
                 },
               ),
-              _buildActionCard(
+              QuickActionCard(
                 icon: Icons.delivery_dining,
-                iconColor: Colors.green,
+                iconColor: AppColors.success,
+                iconBgColor: AppColors.successLight,
                 title: 'Delivery Boys',
-                backgroundColor: Colors.green[50]!,
                 onTap: () {
                   Navigator.push(
                     context,
@@ -281,20 +193,18 @@ class _DashboardScreen extends StatelessWidget {
                   );
                 },
               ),
-              _buildActionCard(
+              QuickActionCard(
                 icon: Icons.attach_money,
-                iconColor: Colors.orange,
+                iconColor: AppColors.warning,
+                iconBgColor: AppColors.warningLight,
                 title: 'Set Pricing',
-                backgroundColor: Colors.orange[50]!,
-                onTap: () {
-                  
-                },
+                onTap: () {},
               ),
-              _buildActionCard(
+              QuickActionCard(
                 icon: Icons.receipt_long,
-                iconColor: Color.fromARGB(255, 0, 89, 255),
+                iconColor: AppColors.primary,
+                iconBgColor: AppColors.primaryLight,
                 title: 'Monthly Invoices',
-                backgroundColor: Color(0xFFE3F2FD),
                 onTap: () {
                   Navigator.push(
                     context,
@@ -306,201 +216,16 @@ class _DashboardScreen extends StatelessWidget {
               ),
             ],
           ),
-
           const SizedBox(height: 24),
-
-          // Dynamic Pricing Control Section
-          const Text(
+          Text(
             'Dynamic Pricing Control',
-            style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            ),
+            style: AppTextStyles.sectionTitle.copyWith(fontSize: 22),
           ),
-
           const SizedBox(height: 16),
-
-          // Pricing Control Card
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.1),
-                  spreadRadius: 1,
-                  blurRadius: 10,
-                  offset: const Offset(0, 2),
-                ),
-              ],
-            ),
-            child: Row(
-              children: [
-                Container(
-                  width: 50,
-                  height: 50,
-
-                  child: const Icon(
-                    Icons.attach_money,
-                    color: Color.fromARGB(255, 0, 89, 255),
-                    size: 28,
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Set Customer Pricing',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      const Text(
-                        'Manage individual customer rates',
-                        style: TextStyle(fontSize: 14, color: Colors.grey),
-                      ),
-                    ],
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () => _showCustomerPricingBottomSheet(context),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 8,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 0, 89, 255),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: const Text(
-                      'Manage',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+          PricingControlCard(
+            onManagePressed: () => _showCustomerPricingBottomSheet(context),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildOverviewCard({
-    required IconData icon,
-    required Color iconColor,
-    required String title,
-    required String subtitle,
-    required Color backgroundColor,
-  }) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            spreadRadius: 1,
-            blurRadius: 10,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              color: backgroundColor,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Icon(icon, color: iconColor, size: 20),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            title,
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: iconColor,
-            ),
-          ),
-          const SizedBox(height: 2),
-          Text(
-            subtitle,
-            style: const TextStyle(fontSize: 12, color: Colors.grey),
-            textAlign: TextAlign.center,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildActionCard({
-    required IconData icon,
-    required Color iconColor,
-    required String title,
-    required Color backgroundColor,
-    required VoidCallback onTap,
-  }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.1),
-              spreadRadius: 1,
-              blurRadius: 10,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
-        child: Row(
-          children: [
-            Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                color: backgroundColor,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Icon(icon, color: iconColor, size: 20),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black,
-                ),
-              ),
-            ),
-            const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
-          ],
-        ),
       ),
     );
   }
@@ -526,7 +251,6 @@ class _DashboardScreen extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  // Handle bar
                   Container(
                     margin: const EdgeInsets.only(top: 8),
                     width: 40,
@@ -536,8 +260,6 @@ class _DashboardScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(2),
                     ),
                   ),
-
-                  // Header
                   Container(
                     padding: const EdgeInsets.all(20),
                     child: Row(
@@ -545,54 +267,45 @@ class _DashboardScreen extends StatelessWidget {
                         Container(
                           width: 40,
                           height: 40,
-
                           child: const Icon(
                             Icons.attach_money,
-                            color: Color.fromARGB(255, 0, 89, 255),
+                            color: AppColors.primary,
                             size: 20,
                           ),
                         ),
                         const SizedBox(width: 12),
-                        const Expanded(
+                        Expanded(
                           child: Text(
                             'Customer Pricing Management',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w800,
-                              color: Colors.black,
-                            ),
+                            style: AppTextStyles.cardTitle.copyWith(fontSize: 16),
                           ),
                         ),
                       ],
                     ),
                   ),
-
-                  // Content
                   Expanded(
                     child: SingleChildScrollView(
                       controller: scrollController,
                       child: Column(
                         children: [
-                          // ✅ Pass context here
-                          _buildCustomerPricingCard(
-                            context,
-                            'Emily Chen',
-                            '123 Oak Street, Apartment 4B',
-                            '\$25.00',
+                          CustomerPricingCard(
+                            customerName: 'Emily Chen',
+                            address: '123 Oak Street, Apartment 4B',
+                            price: '\$25.00',
+                            onEditPressed: () => _showEditPriceDialog(context, 'Emily Chen', '\$25.00'),
                           ),
-                          _buildCustomerPricingCard(
-                            context,
-                            'Robert Taylor',
-                            '456 Pine Avenue, House 12',
-                            '\$30.00',
+                          CustomerPricingCard(
+                            customerName: 'Robert Taylor',
+                            address: '456 Pine Avenue, House 12',
+                            price: '\$30.00',
+                            onEditPressed: () => _showEditPriceDialog(context, 'Robert Taylor', '\$30.00'),
                           ),
-                          _buildCustomerPricingCard(
-                            context,
-                            'Maria Rodriguez',
-                            '789 Elm Drive, Suite 5',
-                            '\$28.00',
+                          CustomerPricingCard(
+                            customerName: 'Maria Rodriguez',
+                            address: '789 Elm Drive, Suite 5',
+                            price: '\$28.00',
+                            onEditPressed: () => _showEditPriceDialog(context, 'Maria Rodriguez', '\$28.00'),
                           ),
-
                           const SizedBox(height: 100),
                         ],
                       ),
@@ -604,79 +317,6 @@ class _DashboardScreen extends StatelessWidget {
           },
         );
       },
-    );
-  }
-
-  // ✅ Added BuildContext context here
-  Widget _buildCustomerPricingCard(
-    BuildContext context,
-    String customerName,
-    String address,
-    String price,
-  ) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: const Color(0xFFF8F9FA),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  customerName,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.black,
-                  ),
-                ),
-                const SizedBox(height: 6),
-                Text(
-                  address,
-                  style: TextStyle(fontSize: 14, color: Colors.grey[600]),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(width: 16),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text(
-                price,
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  color: Color.fromARGB(255, 0, 89, 255),
-                ),
-              ),
-              const SizedBox(height: 8),
-              GestureDetector(
-                onTap: () {
-                  // ✅ Now context is valid
-                  _showEditPriceDialog(context, customerName, price);
-                },
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 6,
-                  ),
-
-                  child: const Text(
-                    'Edit',
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
     );
   }
 
@@ -723,12 +363,12 @@ class _DashboardScreen extends StatelessWidget {
                     content: Text(
                       'Price updated for $customerName: \$${priceController.text}',
                     ),
-                    backgroundColor: const Color(0xFF10B981),
+                    backgroundColor: AppColors.success,
                   ),
                 );
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color.fromARGB(255, 0, 89, 255),
+                backgroundColor: AppColors.primary,
                 foregroundColor: Colors.white,
               ),
               child: const Text('Update'),

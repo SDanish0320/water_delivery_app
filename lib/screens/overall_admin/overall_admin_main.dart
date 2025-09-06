@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:water_delivery_app/screens/overall_admin/overall_admin_dashboard.dart';
 import 'package:water_delivery_app/screens/overall_admin/overall_admin_profile.dart';
+import 'package:water_delivery_app/constants/app_colors.dart';
+import 'package:water_delivery_app/constants/app_text_styles.dart';
 
 class OverallAdminMain extends StatefulWidget {
   const OverallAdminMain({super.key});
@@ -32,95 +34,21 @@ class _OverallAdminMainState extends State<OverallAdminMain> {
       ),
       bottomNavigationBar: Container(
         height: 80,
-        decoration: const BoxDecoration(
-          color: Colors.white,
+        decoration: BoxDecoration(
+          color: AppColors.cardBackground,
           boxShadow: [
             BoxShadow(
-              color: Colors.black12,
+              color: Colors.black.withOpacity(0.1),
               blurRadius: 10,
-              offset: Offset(0, -5),
+              offset: const Offset(0, -5),
             ),
           ],
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            GestureDetector(
-              onTap: () => _onTabTapped(0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: _currentIndex == 0 
-                          ? const Color.fromARGB(255, 0, 89, 255)
-                          : Colors.grey[200],
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Icon(
-                      Icons.admin_panel_settings,
-                      color: _currentIndex == 0 
-                          ? Colors.white 
-                          : Colors.grey[600],
-                      size: 20,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    'Admin',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: _currentIndex == 0 
-                          ? const Color.fromARGB(255, 0, 89, 255)
-                          : Colors.grey[600],
-                      fontWeight: _currentIndex == 0 
-                          ? FontWeight.w600 
-                          : FontWeight.w500,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            GestureDetector(
-              onTap: () => _onTabTapped(1),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: _currentIndex == 1 
-                          ? const Color.fromARGB(255, 0, 89, 255)
-                          : Colors.grey[200],
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Icon(
-                      Icons.person,
-                      color: _currentIndex == 1 
-                          ? Colors.white 
-                          : Colors.grey[600],
-                      size: 20,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    'Profile',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: _currentIndex == 1 
-                          ? const Color.fromARGB(255, 0, 89, 255)
-                          : Colors.grey[600],
-                      fontWeight: _currentIndex == 1 
-                          ? FontWeight.w600 
-                          : FontWeight.w500,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            _buildNavItem(0, Icons.admin_panel_settings, 'Admin'),
+            _buildNavItem(1, Icons.person, 'Profile'),
           ],
         ),
       ),
@@ -128,9 +56,7 @@ class _OverallAdminMainState extends State<OverallAdminMain> {
         width: 56,
         height: 56,
         decoration: BoxDecoration(
-          color: _currentIndex == 0 
-              ? const Color.fromARGB(255, 0, 89, 255)
-              : const Color.fromARGB(255, 0, 89, 255),
+          color: AppColors.primary,
           borderRadius: BorderRadius.circular(16),
         ),
         child: FloatingActionButton(
@@ -143,6 +69,39 @@ class _OverallAdminMainState extends State<OverallAdminMain> {
             size: 24,
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildNavItem(int index, IconData icon, String label) {
+    final bool isSelected = _currentIndex == index;
+    return GestureDetector(
+      onTap: () => _onTabTapped(index),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+              color: isSelected ? AppColors.primary : AppColors.textTertiary.withOpacity(0.2),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Icon(
+              icon,
+              color: isSelected ? Colors.white : AppColors.textSecondary,
+              size: 20,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            label,
+            style: AppTextStyles.smallText.copyWith(
+              color: isSelected ? AppColors.primary : AppColors.textSecondary,
+              fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+            ),
+          ),
+        ],
       ),
     );
   }
